@@ -21,21 +21,14 @@ import Balance from "./components/Balance";
 import Badges from "./components/Badges";
 import Ruler from "./components/Ruler";
 import Receipt from "./components/Receipt";
-import CashOut from "./components/CashOut";
 import MainCard from './components/MainCard';
 import History from './components/History';
 import Advanced from './components/Advanced';
-import BottomLinks from './components/BottomLinks';
-import MoreButtons from './components/MoreButtons';
-import Admin from './components/Admin';
-import Vendor from './components/Vendor';
-import Vendors from './components/Vendors';
 import RecentTransactions from './components/RecentTransactions';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import burnerlogo from './burnerwallet.png';
 import BurnWallet from './components/BurnWallet'
-import Exchange from './components/Exchange'
 import Bottom from './components/Bottom';
 import customRPCHint from './customRPCHint.png';
 import namehash from 'eth-ens-namehash'
@@ -49,7 +42,7 @@ import cypherpunk from './cypherpunk.png';
 import eth from './ethereum.png';
 import dai from './dai.jpg';
 import xdai from './xdai.jpg';
-import Wyre from './services/wyre';
+
 
 let base64url = require('base64url')
 const EthCrypto = require('eth-crypto');
@@ -334,9 +327,6 @@ class App extends Component {
     this.setState(update)
   }
   componentDidMount(){
-
-    Wyre.configure();
-
 
     document.body.style.backgroundColor = mainStyle.backgroundColor
     console.log("document.getElementsByClassName('className').style",document.getElementsByClassName('.btn').style)
@@ -1588,100 +1578,7 @@ render() {
                 />
               </div>
             );
-            case 'cash_out':
-            return (
-              <div>
-                <div className="main-card card w-100" style={{zIndex:1}}>
 
-                  <NavCard title={"Cash Out"} goBack={this.goBack.bind(this)}/>
-                  {defaultBalanceDisplay}
-                  <CashOut
-                    buttonStyle={buttonStyle}
-                    changeView={this.changeView}
-                    address={account}
-                    balance={balance}
-                    goBack={this.goBack.bind(this)}
-                    dollarDisplay={dollarDisplay}
-                  />
-                </div>
-                <Bottom
-                  action={this.goBack.bind(this)}
-                />
-              </div>
-            );
-
-            case 'exchange':
-            return (
-              <div>
-                <div className="main-card card w-100" style={{zIndex:1}}>
-
-                  <NavCard title={i18n.t('exchange_title')} goBack={this.goBack.bind(this)}/>
-                  <Exchange
-                    eth={eth}
-                    dai={dai}
-                    xdai={xdai}
-                    ERC20NAME={ERC20NAME}
-                    ERC20IMAGE={ERC20IMAGE}
-                    ERC20TOKEN={ERC20TOKEN}
-                    ERC20VENDOR={ERC20VENDOR}
-                    ethprice={this.state.ethprice}
-                    ethBalance={this.state.ethBalance}
-                    daiBalance={this.state.daiBalance}
-                    xdaiBalance={this.state.xdaiBalance}
-                    mainnetweb3={this.state.mainnetweb3}
-                    xdaiweb3={this.state.xdaiweb3}
-                    daiContract={this.state.daiContract}
-                    ensContract={this.state.ensContract}
-                    isVendor={this.state.isVendor}
-                    isAdmin={this.state.isAdmin}
-                    contracts={this.state.contracts}
-                    buttonStyle={buttonStyle}
-                    changeAlert={this.changeAlert}
-                    setGwei={this.setGwei}
-                    network={this.state.network}
-                    tx={this.state.tx}
-                    web3={this.state.web3}
-                    send={this.state.send}
-                    nativeSend={this.state.nativeSend}
-                    address={account}
-                    balance={balance}
-                    goBack={this.goBack.bind(this)}
-                    dollarDisplay={dollarDisplay}
-                  />
-                </div>
-                <Bottom
-                  action={this.goBack.bind(this)}
-                />
-              </div>
-            );
-            case 'vendors':
-            return (
-              <div>
-                <div className="main-card card w-100" style={{zIndex:1}}>
-
-                  <NavCard title={i18n.t('vendors')} goBack={this.goBack.bind(this)}/>
-                  <Vendors
-                    ERC20VENDOR={ERC20VENDOR}
-                    products={this.state.products}
-                    vendorObject={this.state.vendorObject}
-                    vendors={this.state.vendors}
-                    address={account}
-                    mainStyle={mainStyle}
-                    changeView={this.changeView}
-                    contracts={this.state.contracts}
-                    vendor={this.state.isVendor}
-                    tx={this.state.tx}
-                    web3={this.state.web3}
-                    block={this.state.block}
-                    goBack={this.goBack.bind(this)}
-                    dollarDisplay={dollarDisplay}
-                  />
-                </div>
-                <Bottom
-                  action={this.goBack.bind(this)}
-                />
-              </div>
-            );
             case 'loader':
             return (
               <div>
