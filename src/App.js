@@ -1647,7 +1647,7 @@ render() {
           DEBUG: false,
           hide: true,
           //TODO: find out whats all about this.
-          requiredNetwork: ['Unknown', 'ARTIS tau1'],
+          requiredNetwork: ['Unknown', 'ARTIS tau1', 'ARTIS sigma1'],
           metatxAccountGenerator: false,
         }}
         //used to pass a private key into Dapparatus
