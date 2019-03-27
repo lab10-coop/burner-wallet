@@ -69,8 +69,8 @@ let mainStyle = {
   backgroundImage:"linear-gradient(#292929, #191919)",
   backgroundColor:"#191919",
   hotColor:"#F69E4D",
-  mainColorAlt:"#fa7d36",
-  mainColor:"#F76B1C",
+  mainColorAlt:"#0D774D",
+  mainColor:"#129C6B",
 }
 
 let title = i18n.t('app_name')
@@ -182,8 +182,9 @@ if(ERC20NAME=="BUFF"){
 } else if(ERC20NAME=="BURN"){
   mainStyle.backgroundImage = "linear-gradient(#4923d8, #6c0664)"
   mainStyle.backgroundColor = "#6c0664"
-  mainStyle.mainColor = "#e72da3"
-  mainStyle.mainColorAlt = "#f948b8"
+  mainStyle.mainColor = "#129C6B"
+  mainStyle.mainColorAlt = "#0D774D"
+
   title = "Burner"
   titleImage = (
     <img src={cypherpunk} style={{
