@@ -144,6 +144,22 @@ else if (window.location.hostname.indexOf("burnerwithrelays") >= 0) {
   ERC20TOKEN = false
   ERC20IMAGE = false
 }
+else if (window.location.hostname.indexOf("burner.tau1.artis.network") >= 0) {
+  XDAI_PROVIDER = "https://rpc.tau1.artis.network"
+  WEB3_PROVIDER = "https://rpc.tau1.artis.network"
+  ERC20NAME = false
+  ERC20TOKEN = false
+  ERC20IMAGE = false
+  CLAIM_RELAY = false
+}
+else if (window.location.hostname.indexOf("burner.sigma1.artis.network") >= 0) {
+  XDAI_PROVIDER = "https://rpc.sigma1.artis.network"
+  WEB3_PROVIDER = "https://rpc.sigma1.artis.network"
+  ERC20NAME = false
+  ERC20TOKEN = false
+  ERC20IMAGE = false
+  CLAIM_RELAY = false
+}
 
 
 if(ERC20NAME=="BUFF"){
