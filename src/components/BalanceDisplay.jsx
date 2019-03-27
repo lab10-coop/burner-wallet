@@ -82,7 +82,7 @@ export default class BalanceDisplay extends React.Component {
         <img style={{maxHeight:30,verticalAlign:"middle"}} src={eth}/>
       )
       if(window.location.hostname.indexOf("xdai") >= 0 || window.location.hostname.indexOf("localhost") >= 0){
-        moneytype="$"
+        moneytype="ATS"
       }
 
       if(balanceDisplay){
