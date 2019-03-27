@@ -86,9 +86,10 @@ let titleImage = (
 
 //<i className="fas fa-fire" />
 if (window.location.hostname.indexOf("localhost") >= 0 || window.location.hostname.indexOf("10.0.0.107") >= 0) {
-  XDAI_PROVIDER = "http://localhost:8545"
-  WEB3_PROVIDER = "http://localhost:8545";
-  CLAIM_RELAY = 'http://localhost:18462'
+  XDAI_PROVIDER = "https://rpc.tau1.artis.network"
+  WEB3_PROVIDER = "https://rpc.tau1.artis.network"
+  CLAIM_RELAY = false
+  ERC20TOKEN = false
   if(true){
     ERC20NAME = false
     ERC20TOKEN = false
@@ -1874,7 +1875,8 @@ render() {
         config={{
           DEBUG: false,
           hide: true,
-          requiredNetwork: ['Unknown', 'xDai'],
+          //TODO: find out whats all about this.
+          requiredNetwork: ['Unknown', 'ARTIS tau1'],
           metatxAccountGenerator: false,
         }}
         //used to pass a private key into Dapparatus
