@@ -139,31 +139,6 @@ export default class Advanced extends React.Component {
 
     return (
       <div style={{marginTop:20}}>
-
-      <div>
-        <div style={{width:"100%",textAlign:"center"}}><h5>Learn More</h5></div>
-        <div className="content ops row" style={{marginBottom:10}}>
-          <div className="col-6 p-1">
-            <a href="https://github.com/austintgriffith/burner-wallet" style={{color:"#FFFFFF"}} target="_blank">
-              <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary}>
-                <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                  <i className="fas fa-code"/> {i18n.t('code')}
-                </Scaler>
-              </button>
-            </a>
-          </div>
-          <div className="col-6 p-1">
-            <a href="https://medium.com/gitcoin/ethereum-in-emerging-economies-b235f8dac2f2" style={{color:"#FFFFFF"}} target="_blank">
-              <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary}>
-                <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                  <i className="fas fa-info"/> {i18n.t('about')}
-                </Scaler>
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-
       <hr style={{paddingTop:20}}/>
 
 
