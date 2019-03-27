@@ -1118,144 +1118,7 @@ render() {
         {web3 /*&& this.checkNetwork()*/ && (() => {
           //console.log("VIEW:",view)
 
-          let moreButtons = (
-            <MoreButtons
-              buttonStyle={buttonStyle}
-              changeView={this.changeView}
-              isVendor={this.state.isVendor&&this.state.isVendor.isAllowed}
-            />
-          )
-
-          let subBalanceDisplay = ""
-          if(ERC20TOKEN){
-            if(!this.state.gasBalance){
-              subBalanceDisplay = ""
-            }else{
-              subBalanceDisplay = (
-                <div style={{opacity:0.4,fontSize:12,position:'absolute',right:0,marginTop:5}}>
-                {Math.round(this.state.gasBalance*10000)/10000}
-                </div>
-              )
-            }
-
-
-            if(this.state.isAdmin){
-              moreButtons = (
-                <div>
-                  <Admin
-                    ERC20VENDOR={ERC20VENDOR}
-                    ERC20TOKEN={ERC20TOKEN}
-                    vendors={this.state.vendors}
-                    buttonStyle={buttonStyle}
-                    changeView={this.changeView}
-                    contracts={this.state.contracts}
-                    tx={this.state.tx}
-                    web3={this.state.web3}
-                  />
-                  <MoreButtons
-                    buttonStyle={buttonStyle}
-                    changeView={this.changeView}
-                    isVendor={false}
-                  />
-                </div>
-              )
-            }else if(this.state.isVendor&&this.state.isVendor.isAllowed){
-              moreButtons = (
-                <div>
-                  <Vendor
-                    ERC20VENDOR={ERC20VENDOR}
-                    products={this.state.products}
-                    address={account}
-                    buttonStyle={buttonStyle}
-                    changeView={this.changeView}
-                    changeAlert={this.changeAlert}
-                    contracts={this.state.contracts}
-                    vendor={this.state.isVendor}
-                    tx={this.state.tx}
-                    web3={this.state.web3}
-                    dollarDisplay={dollarDisplay}
-                  />
-                  <MoreButtons
-                    buttonStyle={buttonStyle}
-                    changeView={this.changeView}
-                    isVendor={true}
-                  />
-                </div>
-              )
-            }else if(ERC20TOKEN){
-              moreButtons = (
-                <div>
-                  <MoreButtons
-                    buttonStyle={buttonStyle}
-                    changeView={this.changeView}
-                    isVendor={false}
-                  />
-                </div>
-              )
-            }else{
-              moreButtons = ""
-            }
-
-            if(this.state.contracts){
-              eventParser = (
-                <div style={{color:"#000000"}}>
-                  <Events
-                    config={{hide:true}}
-                    contract={this.state.contracts[ERC20TOKEN]}
-                    eventName={"Transfer"}
-                    block={this.state.block}
-                    filter={{from:this.state.account}}
-                    onUpdate={(eventData,allEvents)=>{this.setState({transferFrom:allEvents},this.syncFullTransactions)}}
-                  />
-                  <Events
-                    config={{hide:true}}
-                    contract={this.state.contracts[ERC20TOKEN]}
-                    eventName={"Transfer"}
-                    block={this.state.block}
-                    filter={{to:this.state.account}}
-                    onUpdate={(eventData,allEvents)=>{this.setState({transferTo:allEvents},this.syncFullTransactions)}}
-                  />
-                  <Events
-                    config={{hide:true}}
-                    contract={this.state.contracts[ERC20TOKEN]}
-                    eventName={"TransferWithData"}
-                    block={this.state.block}
-                    filter={{from:this.state.account}}
-                    onUpdate={(eventData,allEvents)=>{this.setState({transferFromWithData:allEvents},this.syncFullTransactions)}}
-                  />
-                  <Events
-                    config={{hide:true}}
-                    contract={this.state.contracts[ERC20TOKEN]}
-                    eventName={"TransferWithData"}
-                    block={this.state.block}
-                    filter={{to:this.state.account}}
-                    onUpdate={(eventData,allEvents)=>{this.setState({transferToWithData:allEvents},this.syncFullTransactions)}}
-                  />
-                  <Events
-                    config={{hide:true}}
-                    contract={this.state.contracts[ERC20VENDOR]}
-                    eventName={"UpdateVendor"}
-                    block={this.state.block}
-                    onUpdate={(vendor, all)=>{
-                      let {vendors} = this.state
-                      console.log("VENDOR",vendor)
-                      if(!vendors[vendor.vendor] || vendors[vendor.vendor].blockNumber<vendor.blockNumber){
-                        vendors[vendor.vendor] = {
-                          name: this.state.web3.utils.hexToUtf8(vendor.name),
-                          isAllowed: vendor.isAllowed,
-                          isActive: vendor.isActive,
-                          vendor: vendor.vendor,
-                          blockNumber: vendor.blockNumber
-                        }
-                      }
-                      this.setState({vendors})
-                    }}
-                  />
-                </div>
-              )
-            }
-          }
-
+          
 
           if(view.indexOf("account_")==0)
           {
@@ -1343,16 +1206,12 @@ render() {
 
                   {extraTokens}
 
-                  <Balance icon={xdai} selected={selected} text={"xDai"} amount={this.state.xdaiBalance} address={account} dollarDisplay={dollarDisplay}/>
+                  <Balance icon={xdai} selected={selected} text={"ATS"} amount={this.state.xdaiBalance} address={account} dollarDisplay={dollarDisplay}/>
                   <Ruler/>
-                  <Balance icon={dai} selected={selected} text={"DAI"} amount={this.state.daiBalance} address={account} dollarDisplay={dollarDisplay}/>
-                  <Ruler/>
-                  <Balance icon={eth} selected={selected} text={"ETH"} amount={parseFloat(this.state.ethBalance) * parseFloat(this.state.ethprice)} address={account} dollarDisplay={dollarDisplay}/>
-                  <Ruler/>
+                  
                   {badgeDisplay}
 
                   <MainCard
-                    subBalanceDisplay={subBalanceDisplay}
                     buttonStyle={buttonStyle}
                     address={account}
                     balance={balance}
@@ -1361,7 +1220,6 @@ render() {
                     dollarDisplay={dollarDisplay}
                     ERC20TOKEN={ERC20TOKEN}
                   />
-                  {moreButtons}
                   <RecentTransactions
                     dollarDisplay={dollarDisplay}
                     view={this.state.view}
