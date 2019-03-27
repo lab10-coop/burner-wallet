@@ -145,6 +145,7 @@ else if (window.location.hostname.indexOf("burnerwithrelays") >= 0) {
   ERC20IMAGE = false
 }
 else if (window.location.hostname.indexOf("burner.tau1.artis.network") >= 0) {
+  console.log('detected burner.tau1.artis.network');
   XDAI_PROVIDER = "https://rpc.tau1.artis.network"
   WEB3_PROVIDER = "https://rpc.tau1.artis.network"
   ERC20NAME = false
@@ -153,6 +154,7 @@ else if (window.location.hostname.indexOf("burner.tau1.artis.network") >= 0) {
   CLAIM_RELAY = false
 }
 else if (window.location.hostname.indexOf("burner.sigma1.artis.network") >= 0) {
+  console.log('detected burner.sigma1.artis.network');
   XDAI_PROVIDER = "https://rpc.sigma1.artis.network"
   WEB3_PROVIDER = "https://rpc.sigma1.artis.network"
   ERC20NAME = false
@@ -600,7 +602,7 @@ class App extends Component {
   };
   checkNetwork() {
     let { network } = this.state;
-    return network === "xDai" || network === "Unknown";
+    return network === "ARTIS sigma1" || network === "Unknown" || network === "ARTIS tau1" ;
   }
   checkClaim(tx, contracts) {
     //check if we are trying to claim
