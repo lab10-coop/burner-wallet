@@ -145,7 +145,8 @@ else if (window.location.hostname.indexOf("burnerwithrelays") >= 0) {
   ERC20TOKEN = false
   ERC20IMAGE = false
 }
-else if (window.location.hostname.indexOf("burner.tau1.artis.network") >= 0) {
+else if (window.location.hostname.indexOf("burner.tau1.artis.network") >= 0
+   || window.location.hostname.indexOf("test.minerva.cash") >= 0) {
   console.log('detected burner.tau1.artis.network');
   XDAI_PROVIDER = "https://rpc.tau1.artis.network"
   WEB3_PROVIDER = "https://rpc.tau1.artis.network"
@@ -154,7 +155,8 @@ else if (window.location.hostname.indexOf("burner.tau1.artis.network") >= 0) {
   ERC20IMAGE = false
   CLAIM_RELAY = false
 }
-else if (window.location.hostname.indexOf("burner.sigma1.artis.network") >= 0) {
+else if (window.location.hostname.indexOf("burner.sigma1.artis.network") >= 0
+    || window.location.hostname.indexOf("minerva.cash") >= 0) {
   console.log('detected burner.sigma1.artis.network');
   XDAI_PROVIDER = "https://rpc.sigma1.artis.network"
   WEB3_PROVIDER = "https://rpc.sigma1.artis.network"
@@ -163,7 +165,6 @@ else if (window.location.hostname.indexOf("burner.sigma1.artis.network") >= 0) {
   ERC20IMAGE = false
   CLAIM_RELAY = false
 }
-
 
 if(ERC20NAME=="BUFF"){
   mainStyle.backgroundImage = "linear-gradient(#540d48, #20012d)"
