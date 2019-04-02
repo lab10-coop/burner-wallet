@@ -85,9 +85,9 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
   if(view=="main" || view=="exchange"){
     opacity = 1.0
     var blockscoutURL = '';
-    if(network === "ARTIS sigma1") {
+    if(network === "ARTIS Sigma1") {
       blockscoutURL = "https://explorer.sigma1.artis.network";
-    } else if (network === "ARTIS tau1") {
+    } else if (network === "ARTIS Tau1") {
       blockscoutURL = "https://explorer.tau1.artis.network";
     } else {
       blockscoutURL = "https://blockscout.com/poa/dai";
