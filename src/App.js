@@ -605,7 +605,7 @@ class App extends Component {
   };
   checkNetwork() {
     let { network } = this.state;
-    return network === "ARTIS sigma1" || network === "Unknown" || network === "ARTIS tau1" ;
+    return network === "ARTIS Sigma1" || network === "Unknown" || network === "ARTIS Tau1" ;
   }
   checkClaim(tx, contracts) {
     //check if we are trying to claim
