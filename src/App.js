@@ -66,11 +66,11 @@ let FAILCOUNT = 0
 let mainStyle = {
   width:"100%",
   height:"100%",
-  backgroundImage:"linear-gradient(#292929, #191919)",
-  backgroundColor:"#191919",
-  hotColor:"#F69E4D",
-  mainColorAlt:"#0D774D",
-  mainColor:"#129C6B",
+  backgroundImage:"linear-gradient(#272734, #272734)",
+  backgroundColor:"#272734",
+  hotColor:"#29298F",
+  mainColorAlt:"#8449D1",
+  mainColor:"#443AD2",
 }
 
 let title = i18n.t('app_name')
@@ -206,7 +206,7 @@ let innerStyle = {
 
 let buttonStyle = {
   primary: {
-    backgroundImage:"linear-gradient("+mainStyle.mainColorAlt+","+mainStyle.mainColor+")",
+    backgroundImage:"linear-gradient("+mainStyle.mainColor+","+mainStyle.mainColorAlt+")",
     backgroundColor:mainStyle.mainColor,
     color:"#FFFFFF",
     whiteSpace:"nowrap",
@@ -407,8 +407,8 @@ class App extends Component {
     setTimeout(this.poll.bind(this),150)
     setTimeout(this.poll.bind(this),650)
     interval = setInterval(this.poll.bind(this),1500)
-    intervalLong = setInterval(this.longPoll.bind(this),45000)
-    setTimeout(this.longPoll.bind(this),150)
+    //intervalLong = setInterval(this.longPoll.bind(this),45000)
+    //setTimeout(this.longPoll.bind(this),150)
 
     let mainnetweb3 = new Web3(new Web3.providers.WebsocketProvider('wss://mainnet.infura.io/ws/v3/e0ea6e73570246bbb3d4bd042c4b5dac'))
     let ensContract = new mainnetweb3.eth.Contract(require("./contracts/ENS.abi.js"),require("./contracts/ENS.address.js"))
@@ -544,13 +544,13 @@ class App extends Component {
 
 
   }
-  longPoll() {
-    axios.get("https://api.coinmarketcap.com/v2/ticker/1027/")
-     .then((response)=>{
-       let ethprice = response.data.data.quotes.USD.price
-       this.setState({ethprice})
-     })
-  }
+  // longPoll() {
+  //   axios.get("https://api.coinmarketcap.com/v2/ticker/1027/")
+  //    .then((response)=>{
+  //      let ethprice = response.data.data.quotes.USD.price
+  //      this.setState({ethprice})
+  //    })
+  // }
   setPossibleNewPrivateKey(value){
     this.setState({possibleNewPrivateKey:value},()=>{
       this.dealWithPossibleNewPrivateKey()
