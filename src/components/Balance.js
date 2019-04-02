@@ -11,22 +11,22 @@ export  default ({icon, text, selected, amount, address, dollarDisplay}) => {
 
   if(isNaN(amount) || typeof amount == "undefined"){
     amount=0.00
-    opacity=0.25
+    opacity=0.40
   }
 
   if(opacity<0.9 && parseFloat(amount)<=0.0){
-    opacity=0.05
+    opacity=0.15
   }
-
+  console.log('text: ' + text);
   return (
     <div className="balance row" style={{opacity,paddingBottom:0,paddingLeft:20}}>
       <div className="avatar col p-0">
-        <img src={icon} style={{maxWidth:50,maxHeight:50}}/>
-        <div style={{position:'absolute',left:60,top:12,fontSize:14,opacity:0.77}}>
+        <img src={icon} style={{maxWidth:150,maxHeight:150}}/>
+        {/* <div style={{position:'absolute',left:60,top:12,fontSize:14,opacity:0.77}}>
           {text}
-        </div>
+        </div> */}
       </div>
-      <div style={{position:"absolute",right:25,marginTop:15}}>
+      <div style={{position:"absolute",right:25,marginTop:7}}>
         <Scaler config={{startZoomAt:400,origin:"200px 30px",adjustedZoom:1}}>
           <div style={{fontSize:40,letterSpacing:-2}}>
             {dollarDisplay(amount)}

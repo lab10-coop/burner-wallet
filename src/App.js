@@ -42,7 +42,7 @@ import cypherpunk from './cypherpunk.png';
 import eth from './ethereum.png';
 import dai from './dai.jpg';
 import xdai from './xdai.jpg';
-import ats from './ats.png';
+import ats from './ARTIS-sigma1-logo.svg';
 
 
 let base64url = require('base64url')
