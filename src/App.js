@@ -42,7 +42,9 @@ import cypherpunk from './cypherpunk.png';
 import eth from './ethereum.png';
 import dai from './dai.jpg';
 import xdai from './xdai.jpg';
-import ats from './ARTIS-sigma1-logo.svg';
+
+import ats_sigma from './ARTIS-sigma1-logo.svg';
+import ats_tau from './ARTIS-tau1-logo.svg';
 
 
 let base64url = require('base64url')
@@ -62,6 +64,7 @@ let ERC20NAME
 let LOADERIMAGE = burnerlogo
 let HARDCODEVIEW// = "loader"// = "receipt"
 let FAILCOUNT = 0
+let ats
 
 let mainStyle = {
   width:"100%",
@@ -84,6 +87,7 @@ if (window.location.hostname.indexOf("localhost") >= 0 || window.location.hostna
   WEB3_PROVIDER = "https://rpc.tau1.artis.network"
   CLAIM_RELAY = false
   ERC20TOKEN = false
+  ats = ats_tau;
   if(true){
     ERC20NAME = false
     ERC20TOKEN = false
@@ -154,6 +158,7 @@ else if (window.location.hostname.indexOf("burner.tau1.artis.network") >= 0
   ERC20TOKEN = false
   ERC20IMAGE = false
   CLAIM_RELAY = false
+  ats = ats_tau;
 }
 else if (window.location.hostname.indexOf("burner.sigma1.artis.network") >= 0
     || window.location.hostname.indexOf("minerva.cash") >= 0) {
@@ -164,6 +169,7 @@ else if (window.location.hostname.indexOf("burner.sigma1.artis.network") >= 0
   ERC20TOKEN = false
   ERC20IMAGE = false
   CLAIM_RELAY = false
+  ats = ats_sigma;
 }
 
 if(ERC20NAME=="BUFF"){
