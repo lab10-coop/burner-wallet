@@ -5,6 +5,7 @@ staging:
   stage: deploy
   script:
     - cd /var/www/nginx/burner-wallet
+    - git pull
     - npm ci
     - rm -r build
     - npm run build
