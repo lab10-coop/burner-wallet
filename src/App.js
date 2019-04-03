@@ -430,13 +430,11 @@ class App extends Component {
 
     let badgeBalance = 0;
     if(this.state.account){
-      console.log('Updating balances...');
       let ethBalance = 0.00
       let daiBalance = 0.00
       let xdaiBalance = 0.00
 
       if(this.state.mainnetweb3){
-        console.log('Updating mainnetweb3');
         try{
           ethBalance = await this.state.mainnetweb3.eth.getBalance(this.state.account)
           ethBalance = this.state.mainnetweb3.utils.fromWei(""+ethBalance,'ether')
@@ -451,10 +449,8 @@ class App extends Component {
         }
       }
       if(this.state.xdaiweb3){
-        console.log('Updating xdaiweb3');
         xdaiBalance = await this.state.xdaiweb3.eth.getBalance(this.state.account)
         xdaiBalance = this.state.xdaiweb3.utils.fromWei(""+xdaiBalance,'ether')
-        console.log('xdaiBalance: ' + xdaiBalance);
       }
 
       this.setState({ethBalance,daiBalance,xdaiBalance,badgeBalance,hasUpdateOnce:true})
