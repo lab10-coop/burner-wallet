@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ContractLoader, Dapparatus, Transactions, Gas, Address, Events } from "dapparatus";
 import Web3 from 'web3';
-import axios from 'axios';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import gasless from 'tabookey-gasless';
@@ -410,20 +409,13 @@ class App extends Component {
         }
       }
     }
-    setTimeout(this.poll.bind(this),150)
-    setTimeout(this.poll.bind(this),650)
-    interval = setInterval(this.poll.bind(this),1500)
-    //intervalLong = setInterval(this.longPoll.bind(this),45000)
-    //setTimeout(this.longPoll.bind(this),150)
 
-    let mainnetweb3 = new Web3(new Web3.providers.WebsocketProvider('wss://mainnet.infura.io/ws/v3/e0ea6e73570246bbb3d4bd042c4b5dac'))
-    let ensContract = new mainnetweb3.eth.Contract(require("./contracts/ENS.abi.js"),require("./contracts/ENS.address.js"))
-    let daiContract
-    try{
-      daiContract = new mainnetweb3.eth.Contract(require("./contracts/StableCoin.abi.js"),"0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359")
-    }catch(e){
-      console.log("ERROR LOADING DAI Stablecoin Contract",e)
-    }
+    interval = setInterval(this.poll.bind(this),5000)
+    //debugger
+    let mainnetweb3;  // new Web3(new Web3.providers.WebsocketProvider('wss://mainnet.infura.io/ws/v3/e0ea6e73570246bbb3d4bd042c4b5dac'))
+    let ensContract;  //new mainnetweb3.eth.Contract(require("./contracts/ENS.abi.js"),require("./contracts/ENS.address.js"))
+    let daiContract; 
+   
     let xdaiweb3 = new Web3(new Web3.providers.HttpProvider(XDAI_PROVIDER))
     this.setState({mainnetweb3,ensContract,xdaiweb3,daiContract})
   }
@@ -432,124 +424,77 @@ class App extends Component {
     clearInterval(intervalLong)
     window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
+  //async poll() {
+
   async poll() {
 
-    let badgeBalance = 0
-    if(this.state.contracts&&(this.state.network=="xDai"||this.state.network=="Unknown") && this.state.contracts.Badges){
-      //check for badges for this user
-      badgeBalance = await this.state.contracts.Badges.balanceOf(this.state.account).call()
-      if(badgeBalance>0){
-        let update = false
-        for(let b = 0;b<badgeBalance;b++){
-          let thisBadgeId = await this.state.contracts.Badges.tokenOfOwnerByIndex(this.state.account,b).call()
-          if(!this.state.badges[thisBadgeId]){
-
-            let thisBadgeData = await this.state.contracts.Badges.tokenURI(thisBadgeId).call()
-            //console.log("BADGE",b,thisBadgeId,thisBadgeData)
-            if(!this.state.badges[thisBadgeId]){
-              console.log("Getting badge data ",thisBadgeData)
-              let response = axios.get(thisBadgeData).then((response)=>{
-                console.log("RESPONSE:",response)
-                if(response && response.data){
-                  this.state.badges[thisBadgeId] = response.data
-                  this.state.badges[thisBadgeId].id = thisBadgeId
-                  update=true
-                }
-              })
-
-            }
-          }
-        }
-        if(update){
-          //console.log("Saving badges state...")
-          this.setState({badges:this.state.badges})
-        }
-
-      }
-
-    }
-
-
-    //console.log(">>>>>>> <<< >>>>>> Looking into iframe...")
-    //console.log(document.getElementById('galleassFrame').contentWindow['web3'])
-
-    if(ERC20TOKEN&&this.state.contracts&&(this.state.network=="xDai"||this.state.network=="Unknown")){
-      let gasBalance = await this.state.web3.eth.getBalance(this.state.account)
-      gasBalance = this.state.web3.utils.fromWei(""+gasBalance,'ether')
-      //console.log("Getting balanceOf "+this.state.account+" in contract ",this.state.contracts[ERC20TOKEN])
-      let tokenBalance = await this.state.contracts[ERC20TOKEN].balanceOf(this.state.account).call()
-      //console.log("balance is ",tokenBalance)
-      tokenBalance = this.state.web3.utils.fromWei(""+tokenBalance,'ether')
-
-      //console.log("Getting admin from ",this.state.contracts[ERC20VENDOR])
-      let isAdmin = await this.state.contracts[ERC20VENDOR].isAdmin(this.state.account).call()
-      //console.log("ISADMIN",this.state.account,isAdmin)
-      let isVendor = await this.state.contracts[ERC20VENDOR].vendors(this.state.account).call()
-      //console.log("isVendor",isVendor)
-
-      let vendorObject = this.state.vendorObject
-      let products = []//this.state.products
-      if(isVendor.isAllowed){
-        //console.log("LOADING VENDOR PRODUCTS")
-        let id = 0
-        if(!vendorObject){
-          let vendorData = await this.state.contracts[ERC20VENDOR].vendors(this.state.account).call()
-          //console.log("vendorData",vendorData)
-          vendorData.name = this.state.web3.utils.hexToUtf8(vendorData.name)
-          vendorObject = vendorData
-        }
-        //console.log("Looking up products for vendor ",this.state.account)
-        if(!products){
-          products = []
-        }
-        let found = true
-        while(found){
-          let nextProduct = await this.state.contracts[ERC20VENDOR].products(this.state.account,id).call()
-          if(nextProduct.exists){
-            products[id++] = nextProduct
-          }else{
-            found=false
-          }
-        }
-      }
-      //console.log("isVendor",isVendor,"SAVING PRODUCTS",products)
-
-      this.setState({gasBalance:gasBalance,balance:tokenBalance,isAdmin:isAdmin,isVendor:isVendor,hasUpdateOnce:true,vendorObject,products})
-    }
-
-
+    let badgeBalance = 0;
     if(this.state.account){
+      console.log('Updating balances...');
       let ethBalance = 0.00
       let daiBalance = 0.00
       let xdaiBalance = 0.00
 
       if(this.state.mainnetweb3){
-
+        console.log('Updating mainnetweb3');
         try{
           ethBalance = await this.state.mainnetweb3.eth.getBalance(this.state.account)
           ethBalance = this.state.mainnetweb3.utils.fromWei(""+ethBalance,'ether')
-
+          console.log('Eth Balance: ' + ethBalance);
           if(this.state.daiContract){
             daiBalance = await this.state.daiContract.methods.balanceOf(this.state.account).call()
             daiBalance = this.state.mainnetweb3.utils.fromWei(""+daiBalance,'ether')
+            console.log('daiBalance: ' + daiBalance);
           }
         }catch(e){
           console.log(e)
         }
-
-
-
       }
       if(this.state.xdaiweb3){
+        console.log('Updating xdaiweb3');
         xdaiBalance = await this.state.xdaiweb3.eth.getBalance(this.state.account)
         xdaiBalance = this.state.xdaiweb3.utils.fromWei(""+xdaiBalance,'ether')
+        console.log('xdaiBalance: ' + xdaiBalance);
       }
 
       this.setState({ethBalance,daiBalance,xdaiBalance,badgeBalance,hasUpdateOnce:true})
     }
-
-
   }
+
+    //console.log(">>>>>>> <<< >>>>>> Looking into iframe...")
+    //console.log(document.getElementById('galleassFrame').contentWindow['web3'])
+
+    
+    // if(this.state.account){
+    //   let ethBalance = 0.00
+    //   let daiBalance = 0.00
+    //   let xdaiBalance = 0.00
+
+    //   if(this.state.mainnetweb3){
+
+    //     try{
+    //       ethBalance = await this.state.mainnetweb3.eth.getBalance(this.state.account)
+    //       ethBalance = this.state.mainnetweb3.utils.fromWei(""+ethBalance,'ether')
+
+    //       if(this.state.daiContract){
+    //         daiBalance = await this.state.daiContract.methods.balanceOf(this.state.account).call()
+    //         daiBalance = this.state.mainnetweb3.utils.fromWei(""+daiBalance,'ether')
+    //       }
+    //     }catch(e){
+    //       console.log(e)
+    //     }
+
+
+
+    //   }
+    //   if(this.state.xdaiweb3){
+    //     xdaiBalance = await this.state.xdaiweb3.eth.getBalance(this.state.account)
+    //     xdaiBalance = this.state.xdaiweb3.utils.fromWei(""+xdaiBalance,'ether')
+    //   }
+
+    //   this.setState({ethBalance,daiBalance,xdaiBalance,badgeBalance,hasUpdateOnce:true})
+    // }
+  //}
   // longPoll() {
   //   axios.get("https://api.coinmarketcap.com/v2/ticker/1027/")
   //    .then((response)=>{
@@ -599,20 +544,12 @@ class App extends Component {
 
 
   }
-  componentDidUpdate(prevProps, prevState) {
-    let { network, web3 } = this.state;
-    if (web3 && network !== prevState.network /*&& !this.checkNetwork()*/) {
-      console.log("WEB3 DETECTED BUT NOT RIGHT NETWORK",web3, network, prevState.network);
-      //this.changeAlert({
-      //  type: 'danger',
-      //  message: 'Wrong Network. Please use Custom RPC endpoint: https://dai.poa.network or turn off MetaMask.'
-      //}, false)
-    }
-  };
+
   checkNetwork() {
     let { network } = this.state;
     return network === "ARTIS Sigma1" || network === "Unknown" || network === "ARTIS Tau1" ;
   }
+
   checkClaim(tx, contracts) {
     //check if we are trying to claim
     if (this.state.claimId && this.state.claimKey) {
