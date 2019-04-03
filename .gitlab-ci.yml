@@ -1,0 +1,10 @@
+stages:
+  - deploy
+
+staging:
+  stage: deploy
+  script:
+    - cd /home/dapps/burner-wallet
+    - npm ci
+    - rm -r build
+    - npm run build
