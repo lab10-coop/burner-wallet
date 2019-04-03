@@ -4,7 +4,7 @@ stages:
 staging:
   stage: deploy
   script:
-    - cd /home/dapps/burner-wallet
+    - cd /var/www/nginx/burner-wallet
     - npm ci
     - rm -r build
     - npm run build
