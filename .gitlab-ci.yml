@@ -6,6 +6,7 @@ staging:
   script:
     - cd /var/www/nginx/burner-wallet
     - git pull
+    - . ~/.nvm/nvm.sh
     - npm ci
     - rm -r build
     - npm run build
