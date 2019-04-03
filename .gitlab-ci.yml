@@ -9,4 +9,4 @@ staging:
     - . ~/.nvm/nvm.sh
     - npm ci
     - rm -r build
-    - npm run build
+    - CI=false npm run build
