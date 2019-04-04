@@ -1,6 +1,10 @@
 {
   "name": "Minerva Burner",
   "short_name": "Minerva Burner",
+  "description": "Minerva Burner",
+  "start_url": "https://minerva.cash/index.html?utm=homescreen",
+  "scope": "/",
+  "splash_pages": "null",
   "icons": [
       {
           "src": "/android-chrome-192x192.png",
