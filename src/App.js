@@ -19,7 +19,6 @@ import ShareLink from './components/ShareLink'
 import Balance from "./components/Balance";
 import Badges from "./components/Badges";
 import Ruler from "./components/Ruler";
-import Receipt from "./components/Receipt";
 import MainCard from './components/MainCard';
 import History from './components/History';
 import Advanced from './components/Advanced';
@@ -1326,35 +1325,7 @@ render() {
             );
             case 'receipt':
             return (
-              <div>
-                <div className="main-card card w-100" style={{zIndex:1}}>
-
-                  <NavCard title={i18n.t('receipt_title')} goBack={this.goBack.bind(this)}/>
-                  <Receipt
-                    receipt={this.state.receipt}
-                    view={this.state.view}
-                    block={this.state.block}
-                    ensLookup={this.ensLookup.bind(this)}
-                    ERC20TOKEN={ERC20TOKEN}
-                    buttonStyle={buttonStyle}
-                    balance={balance}
-                    web3={this.state.web3}
-                    address={account}
-                    send={send}
-                    goBack={this.goBack.bind(this)}
-                    changeView={this.changeView}
-                    changeAlert={this.changeAlert}
-                    dollarDisplay={dollarDisplay}
-                    transactionsByAddress={this.state.transactionsByAddress}
-                    fullTransactionsByAddress={this.state.fullTransactionsByAddress}
-                    fullRecentTxs={this.state.fullRecentTxs}
-                    recentTxs={this.state.recentTxs}
-                  />
-                </div>
-                <Bottom
-                  action={this.goBack.bind(this)}
-                />
-              </div>
+              <div>Receipt is not implemented</div>
             );
             case 'receive':
             return (
