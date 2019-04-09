@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ContractLoader, Dapparatus, Transactions, Gas, Address, Events } from "dapparatus";
+import { Dapparatus, Transactions, Gas } from "dapparatus";
 import Web3 from 'web3';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
@@ -37,9 +37,6 @@ import RNMessageChannel from 'react-native-webview-messaging';
 
 import bufficorn from './bufficorn.png';
 import cypherpunk from './cypherpunk.png';
-import eth from './ethereum.png';
-import dai from './dai.jpg';
-import xdai from './xdai.jpg';
 
 import ats_sigma from './ARTIS-sigma1-logo.svg';
 import ats_tau from './ARTIS-tau1-logo.svg';
@@ -966,21 +963,6 @@ render() {
   if(web3){
     web3_setup = (
       <div>
-      <ContractLoader
-      key="ContractLoader"
-      config={{DEBUG: true}}
-      web3={web3}
-      require={path => {
-        return require(`${__dirname}/${path}`)
-      }}
-      onReady={(contracts, customLoader) => {
-        console.log("contracts loaded", contracts)
-        this.setState({contracts: contracts,customLoader: customLoader}, async () => {
-          console.log("Contracts Are Ready:", contracts)
-          this.checkClaim(tx, contracts);
-        })
-      }}
-      />
       <Transactions
       key="Transactions"
       config={{DEBUG: false, hide: true}}
