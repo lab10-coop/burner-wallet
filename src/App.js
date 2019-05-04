@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ContractLoader, Dapparatus, Transactions, Gas, Address, Events } from "dapparatus";
+import { Dapparatus, Transactions, Gas } from "dapparatus";
 import Web3 from 'web3';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
@@ -19,7 +19,6 @@ import ShareLink from './components/ShareLink'
 import Balance from "./components/Balance";
 import Badges from "./components/Badges";
 import Ruler from "./components/Ruler";
-import Receipt from "./components/Receipt";
 import MainCard from './components/MainCard';
 import History from './components/History';
 import Advanced from './components/Advanced';
@@ -38,9 +37,6 @@ import RNMessageChannel from 'react-native-webview-messaging';
 
 import bufficorn from './bufficorn.png';
 import cypherpunk from './cypherpunk.png';
-import eth from './ethereum.png';
-import dai from './dai.jpg';
-import xdai from './xdai.jpg';
 
 import ats_sigma from './ARTIS-sigma1-logo.svg';
 import ats_tau from './ARTIS-tau1-logo.svg';
@@ -967,21 +963,6 @@ render() {
   if(web3){
     web3_setup = (
       <div>
-      <ContractLoader
-      key="ContractLoader"
-      config={{DEBUG: true}}
-      web3={web3}
-      require={path => {
-        return require(`${__dirname}/${path}`)
-      }}
-      onReady={(contracts, customLoader) => {
-        console.log("contracts loaded", contracts)
-        this.setState({contracts: contracts,customLoader: customLoader}, async () => {
-          console.log("Contracts Are Ready:", contracts)
-          this.checkClaim(tx, contracts);
-        })
-      }}
-      />
       <Transactions
       key="Transactions"
       config={{DEBUG: false, hide: true}}
@@ -1326,35 +1307,7 @@ render() {
             );
             case 'receipt':
             return (
-              <div>
-                <div className="main-card card w-100" style={{zIndex:1}}>
-
-                  <NavCard title={i18n.t('receipt_title')} goBack={this.goBack.bind(this)}/>
-                  <Receipt
-                    receipt={this.state.receipt}
-                    view={this.state.view}
-                    block={this.state.block}
-                    ensLookup={this.ensLookup.bind(this)}
-                    ERC20TOKEN={ERC20TOKEN}
-                    buttonStyle={buttonStyle}
-                    balance={balance}
-                    web3={this.state.web3}
-                    address={account}
-                    send={send}
-                    goBack={this.goBack.bind(this)}
-                    changeView={this.changeView}
-                    changeAlert={this.changeAlert}
-                    dollarDisplay={dollarDisplay}
-                    transactionsByAddress={this.state.transactionsByAddress}
-                    fullTransactionsByAddress={this.state.fullTransactionsByAddress}
-                    fullRecentTxs={this.state.fullRecentTxs}
-                    recentTxs={this.state.recentTxs}
-                  />
-                </div>
-                <Bottom
-                  action={this.goBack.bind(this)}
-                />
-              </div>
+              <div>Receipt is not implemented</div>
             );
             case 'receive':
             return (
