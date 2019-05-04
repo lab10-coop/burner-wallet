@@ -26,7 +26,7 @@ import Advanced from './components/Advanced';
 import RecentTransactions from './components/RecentTransactions';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
-import burnerlogo from './burnerwallet.png';
+import burnerlogo from './burnerwallet.svg';
 import BurnWallet from './components/BurnWallet'
 import Bottom from './components/Bottom';
 import customRPCHint from './customRPCHint.png';
