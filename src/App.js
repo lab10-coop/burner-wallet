@@ -13,6 +13,7 @@ import SendBadge from './components/SendBadge';
 import WithdrawFromPrivate from './components/WithdrawFromPrivate';
 import RequestFunds from './components/RequestFunds';
 import SendWithLink from './components/SendWithLink';
+import Receipt from './components/Receipt';
 import Receive from './components/Receive'
 import Share from './components/Share'
 import ShareLink from './components/ShareLink'
@@ -1081,6 +1082,7 @@ render() {
                     web3={this.state.web3}
                     goBack={this.goBack.bind(this)}
                     dollarDisplay={dollarDisplay}
+                    network={this.state.network}
                   />
                 </div>
                 <Bottom
@@ -1307,7 +1309,35 @@ render() {
             );
             case 'receipt':
             return (
-              <div>Receipt is not implemented</div>
+              <div>
+              <div className="main-card card w-100" style={{zIndex:1}}>
+
+                <NavCard title={i18n.t('receipt_title')} goBack={this.goBack.bind(this)}/>
+                <Receipt
+                  receipt={this.state.receipt}
+                  view={this.state.view}
+                  block={this.state.block}
+                  ensLookup={this.ensLookup.bind(this)}
+                  ERC20TOKEN={ERC20TOKEN}
+                  buttonStyle={buttonStyle}
+                  balance={balance}
+                  web3={this.state.web3}
+                  address={account}
+                  send={send}
+                  goBack={this.goBack.bind(this)}
+                  changeView={this.changeView}
+                  changeAlert={this.changeAlert}
+                  dollarDisplay={dollarDisplay}
+                  transactionsByAddress={this.state.transactionsByAddress}
+                  fullTransactionsByAddress={this.state.fullTransactionsByAddress}
+                  fullRecentTxs={this.state.fullRecentTxs}
+                  recentTxs={this.state.recentTxs}
+                />
+              </div>
+              <Bottom
+                action={this.goBack.bind(this)}
+              />
+            </div>
             );
             case 'receive':
             return (
@@ -1633,7 +1663,7 @@ render() {
         onUpdate={(state)=>{
           console.log("Gas price update:",state)
           this.setState(state,()=>{
-            this.state.gwei += 0.1
+            this.state.gwei = 1000000000
             console.log("GWEI set:",this.state)
           })
         }}

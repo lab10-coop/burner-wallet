@@ -448,11 +448,22 @@ export default class History extends React.Component {
       )
     }
 
+    var network = this.props.network;
+    var blockscoutURL = "";
+
+    if(network === "ARTIS Sigma1") {
+      blockscoutURL = "https://explorer.sigma1.artis.network";
+    } else if (network === "ARTIS Tau1") {
+      blockscoutURL = "https://explorer.tau1.artis.network";
+    } else {
+      blockscoutURL = "https://blockscout.com/poa/dai";
+    }
+
     return (
       <div style={{marginTop:20}}>
           <div className="content ops row">
             <div className="col-2 p-1">
-              <a href={"https://blockscout.com/poa/dai/address/"+target+"/transactions"} target="_blank">
+              <a href={blockscoutURL + "/address/"+target+"/transactions"} target="_blank">
                 <Blockies seed={target} scale={5}/> {isEncrypted}
               </a>
             </div>
