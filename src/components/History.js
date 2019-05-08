@@ -321,43 +321,7 @@ export default class History extends React.Component {
     }
 
 
-    let waveButton = ""
-    if(this.state.waving){
-      waveButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#666666"}}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-cog fa-spin"></i>
-          </Scaler>
-        </button>
-      )
-    }else if(this.props.metaAccount){
-      waveButton = (
-        <button className="btn btn-large w-100" style={buttonStyle.primary}
-                onClick={()=>{
-                  this.setState({waving:true})
-                  this.props.send(this.props.target, 0, 120000, this.props.web3.utils.utf8ToHex(":wave:"), (result) => {
-                    if(result && result.transactionHash){
-                      this.setState({waving:false})
-                    }
-                  })
-                }}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-handshake"/> {i18next.t('history.wave')}
-          </Scaler>
-        </button>
-      )
-    }else{
-      waveButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#aaaaaa"}}
-                onClick={()=>{
-                  this.props.changeAlert({type: 'warning', message: i18next.t('history.metamask_error')})
-                }}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-handshake"/> {i18next.t('history.wave')}
-          </Scaler>
-        </button>
-      )
-    }
+    
 
     /*
     <div className="col-3 p-1">
@@ -466,9 +430,16 @@ export default class History extends React.Component {
               <a href={blockscoutURL + "/address/"+target+"/transactions"} target="_blank">
                 <Blockies seed={target} scale={5}/> {isEncrypted}
               </a>
+              
             </div>
 
-            <div className="col-4 p-1">
+            <div className="col-8 p-1" >
+              <div style={{paddingTop: '10px'}}>
+                {target}
+              </div>
+            </div>
+
+            <div className="col-2 p-1">
               <CopyToClipboard text={target}>
                 <button className="btn btn-large w-100" style={buttonStyle.secondary}
                   onClick={() => this.props.changeAlert({type: 'success', message: target+' copied to clipboard'})}>
@@ -477,11 +448,6 @@ export default class History extends React.Component {
                   </Scaler>
                 </button>
               </CopyToClipboard>
-            </div>
-            <div className="col-2 p-1">
-            </div>
-            <div className="col-4 p-1">
-              {waveButton}
             </div>
 
           </div>
