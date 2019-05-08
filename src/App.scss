@@ -147,6 +147,17 @@ i.fas {
   }
 }
 
+.all-button {
+    position: absolute;
+    color: #443AD2;
+    font-weight: 900;
+    right: 20px;
+    top: -7px;
+    width: 60px;
+    height: 35px;
+    z-index: 3;
+}
+
 /** SLIDER STYLE OVERRIDES **/
 .wyre-slider .input-range__slider {
     width: 18px;

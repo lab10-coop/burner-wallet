@@ -157,6 +157,12 @@ export default class SendToAddress extends React.Component {
     })
   }
 
+  setAmountToMax(){
+    console.log('calling setAmountToMax')
+    let gasCosts = 21000 * 1000000000;
+    this.updateState('amount', this.props.balance)
+  }
+
   send = async () => {
     let { toAddress, amount } = this.state;
     let {ERC20TOKEN, dollarDisplay, convertToDollar} = this.props
@@ -306,6 +312,7 @@ export default class SendToAddress extends React.Component {
                 <div className="input-group-text">{dollarSymbol}</div>
               </div>
               {amountInputDisplay}
+              <button className="btn all-button" onClick={()=>this.updateState('amount', this.props.balance > 0.000021 ? this.props.balance - 0.000021 : 0 )}>ALL</button>
             </div>
             <div className="form-group w-100" style={{marginTop:20}}>
               <label htmlFor="amount_input">{messageText}</label>
