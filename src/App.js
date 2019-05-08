@@ -270,7 +270,7 @@ class App extends Component {
     this.state = {
       web3: false,
       account: false,
-      gwei: 1.1,
+      gwei: 1.0,
       view: view,
       sendLink: "",
       sendKey: "",
