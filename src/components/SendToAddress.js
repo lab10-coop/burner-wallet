@@ -158,7 +158,6 @@ export default class SendToAddress extends React.Component {
   }
 
   calcCurrentGasCosts(){
-    console.log("calcing gas costs. Limit: " + this.currentTxGasLimit);
     //todo: currently hardcoded 1 gwei.
     return this.currentTxGasLimit / 1000000000.0;
   }
@@ -316,8 +315,24 @@ export default class SendToAddress extends React.Component {
                 <div className="input-group-text">{dollarSymbol}</div>
               </div>
               {amountInputDisplay}
-              <div onClick={()=>{
+              <div onClick={async ()=>{
+
                   this.currentTxGasLimit = 21000; // 0.000021;
+
+                  if (this.state.message != null) {
+                    var result = await this.props.web3.eth.estimateGas({
+                      from: this.state.toAddress,
+                      // token contract address
+                      to: this.state.toAddress,
+                      data: this.props.web3.utils.utf8ToHex(this.state.message)
+                    });
+
+                    console.log('estimated gas: ' + result);
+                    // we round it up so we reduce errors due the problems with floating points the burner wallet had.
+                    // not a perfect solution, but it works.
+                    this.currentTxGasLimit = Math.ceil(result/1000)*1000; 
+                  }
+
                   this.updateState('amount', (this.props.balance > this.calcCurrentGasCosts())  ? (this.props.balance - this.calcCurrentGasCosts()) : 0 )
                 }}>
                 <span className="all-button">
