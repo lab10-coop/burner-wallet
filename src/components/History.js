@@ -335,82 +335,6 @@ export default class History extends React.Component {
       </button>
     </div>
      */
-    let sendForm
-
-    let placeholder="unencrypted public chat..."
-    if(this.state["publicKey_"+target]){
-      placeholder = "encrypted chat..."
-    }
-
-    let chatInput = (
-      <input disabled={this.state.sendingChat} type="text" className="form-control" placeholder={placeholder} value={this.state.newChat}
-        ref={(input) => { this.nameInput = input; }}
-        onKeyDown={this.onKeyDown}
-        onChange={event => this.setState({newChat:event.target.value})}
-      />
-    )
-
-    if(this.state.sendingFunds){
-      sendForm = (
-        <div className="content ops row">
-          <div className="col-4 p-1">
-            <div className="input-group">
-              <div className="input-group-prepend" onClick={()=>{
-                  this.setState({sendingFunds:false},()=>{
-                    setTimeout(()=>{
-                      this.nameInput.focus();
-                    },250)
-                  })
-              }}>
-                <div className="input-group-text">$</div>
-              </div>
-              <input type="number" step="0.1" onKeyDown={this.onKeyDown} className="form-control" placeholder="0.00" value={this.state.newChatAmount}
-                ref={(input) => { this.amountInput = input; }}
-                     onChange={event => this.setState({newChatAmount:event.target.value})}
-              />
-            </div>
-          </div>
-          <div className="col-6 p-1">
-            {chatInput}
-          </div>
-          <div className="col-2 p-1">
-            {sendChatButton}
-          </div>
-        </div>
-      )
-    }else{
-      sendForm = (
-        <div className="content ops row">
-          <div className="col-2 p-1">
-            <button className="btn btn-large w-100" style={buttonStyle.secondary}
-              onClick={()=>{
-                this.setState({sendingFunds:true},()=>{
-                  setTimeout(()=>{
-                    this.amountInput.focus();
-                  },250)
-                })
-              }}>
-              <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                <i className="fas fa-money-bill-wave"/>
-              </Scaler>
-            </button>
-          </div>
-          <div className="col-8 p-1">
-           {chatInput}
-          </div>
-          <div className="col-2 p-1">
-            {sendChatButton}
-          </div>
-        </div>
-      )
-    }
-
-    let isEncrypted = ""
-    if(this.state["publicKey_"+target]){
-      isEncrypted = (
-        <i className="fa fa-lock" style={{fontSize:30,opacity:0.8,position:'absolute',left:50,top:10}} aria-hidden="true"></i>
-      )
-    }
 
     var network = this.props.network;
     var blockscoutURL = "";
@@ -428,7 +352,7 @@ export default class History extends React.Component {
           <div className="content ops row">
             <div className="col-2 p-1">
               <a href={blockscoutURL + "/address/"+target+"/transactions"} target="_blank">
-                <Blockies seed={target} scale={5}/> {isEncrypted}
+                <Blockies seed={target} scale={5}/>
               </a>
               
             </div>
@@ -453,11 +377,6 @@ export default class History extends React.Component {
           </div>
 
         {txns}
-
-        <Ruler />
-
-        <div name="sendForm"></div>
-        {sendForm}
 
 
       </div>
