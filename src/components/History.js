@@ -38,6 +38,8 @@ export default class History extends React.Component {
   componentWillUnmount(){
     clearInterval(interval)
   }
+
+
   async poll(){
     let {transactionsByAddress,target} = this.props
     let theseTransactionsByAddress = []
@@ -161,6 +163,8 @@ export default class History extends React.Component {
     })
   }
   render(){
+
+
     let {transactionsByAddress,address,changeView,block,goBack,target,buttonStyle} = this.props
 
     let theseTransactionsByAddress = []
@@ -284,45 +288,6 @@ export default class History extends React.Component {
       }
     }
 
-    let sendChatButton = ""
-    let sendFundsButton = ""
-    if(this.state.sendingChat){
-      sendChatButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#666666"}}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-cog fa-spin"></i>
-          </Scaler>
-        </button>
-      )
-      sendFundsButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#666666"}}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-cog fa-spin"></i>
-          </Scaler>
-        </button>
-      )
-    }else{
-      sendChatButton = (
-        <button className="btn btn-large w-100" style={buttonStyle.primary}
-                onClick={this.sendChat.bind(this)}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-comment"/>
-          </Scaler>
-        </button>
-      )
-      sendFundsButton = (
-        <button className="btn btn-large w-100" style={buttonStyle.secondary}
-                onClick={this.sendChat.bind(this)}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-comment"/>
-          </Scaler>
-        </button>
-      )
-    }
-
-
-    
-
     /*
     <div className="col-3 p-1">
       <button className="btn btn-large w-100" style={{whiteSpace:"nowrap"}}
@@ -373,12 +338,8 @@ export default class History extends React.Component {
                 </button>
               </CopyToClipboard>
             </div>
-
           </div>
-
         {txns}
-
-
       </div>
     )
   }
