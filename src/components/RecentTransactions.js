@@ -21,12 +21,12 @@ export default ({dollarDisplay, view, max, buttonStyle, ERC20TOKEN, vendorName, 
     //        + inputAddress.slice(12, 18) + breakerChar
     //        + inputAddress.slice(24, 30) + breakerChar
     //        + inputAddress.slice(30, 36) + breakerChar
-    //        + inputAddress.slice(36, 42) + breakerChar;
+    //        + inputAddress.slice(36, 42);
 
     // result = inputAddress.slice(0, 12) + breakerChar
     // + inputAddress.slice(12, 24) + breakerChar
     // + inputAddress.slice(24, 36) + breakerChar
-    // + inputAddress.slice(36, 42) + breakerChar;
+    // + inputAddress.slice(36, 42) ;
 
     result = inputAddress.slice(2, 8);
 

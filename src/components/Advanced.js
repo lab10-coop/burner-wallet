@@ -16,6 +16,28 @@ export default class Advanced extends React.Component {
     }
   }
   render(){
+    
+    function formatPKReadable(inputPK, breakerChar = ' ') {  
+      let result = '';
+      if (inputPK.length != 66) {
+        console.warn('dont understand address: ' + inputPK );
+        return inputPK;
+      }
+  
+      result = inputPK.slice(0, 6) + breakerChar
+             + inputPK.slice(6, 12) + breakerChar
+             + inputPK.slice(12, 18) + breakerChar
+             + inputPK.slice(18, 24) + breakerChar
+             + inputPK.slice(24, 30) + breakerChar
+             + inputPK.slice(30, 36) + breakerChar
+             + inputPK.slice(36, 42) + breakerChar
+             + inputPK.slice(42, 48) + breakerChar
+             + inputPK.slice(54, 60) + breakerChar
+             + inputPK.slice(60, 66)
+
+      return  result;
+    }
+
     let {isVendor, balance, address, privateKey, changeAlert, changeView, goBack, setPossibleNewPrivateKey} = this.props
 
     let url = window.location.protocol+"//"+window.location.hostname
@@ -30,6 +52,7 @@ export default class Advanced extends React.Component {
         <div className="main-card card w-100">
           <div className="content qr row">
             <QRCode value={qrValue} size={qrSize}/>
+            <div style={{textAlign: 'center', fontWeight: 300,width: '100%'}} >{formatPKReadable(privateKey)}</div>
           </div>
         </div>
       )
@@ -139,13 +162,11 @@ export default class Advanced extends React.Component {
 
     return (
       <div style={{marginTop:20}}>
-      <hr style={{paddingTop:20}}/>
-
-
 
         {privateKey && !isVendor &&
         <div>
-                    <div style={{width:"100%",textAlign:"center"}}><h5>Private Key</h5></div>
+          <div style={{width:"100%",textAlign:"center"}}><h5>Secret Private Key</h5></div>
+          <div style={{fontWeight: 300, padding: 15}}>The private key is your secret that unlocks your funds. It is stored in your browser cache. If you loose this private key, your funds are lost as well (device breaks, clearing browser cache, browser or system update). Noone can rescue your funds, except you, if you have done a backup of the private key or the seed phrase.</div>
           <div className="content ops row" style={{marginBottom:10}}>
 
             <div className="col-6 p-1">
@@ -202,25 +223,7 @@ export default class Advanced extends React.Component {
 
         {inputSeedRow}
 
-        <hr style={{paddingTop:20}}/>
-        <div style={{width:"100%",textAlign:"center"}}><h5>Extra Tools</h5></div>
 
-        <div className="content ops row">
-          <div className="col-6 p-1">
-              <input type="text" autoCorrect="off" autocapitalize="none" className="form-control" placeholder="any text to encode" value={this.state.newQr}
-                     onChange={event => this.setState({newQr:event.target.value})} />
-          </div>
-          <div className="col-6 p-1">
-            <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary}
-                    onClick={()=>{
-                      this.setState({showingQr:this.state.newQr})
-                    }}>
-              <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                <i className="fas fa-qrcode"/> {i18n.t('advanced.to_qr')}
-              </Scaler>
-            </button>
-          </div>
-        </div>
         {showingQr}
 
         {isVendor &&
