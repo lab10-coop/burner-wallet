@@ -88,7 +88,7 @@ export default class Advanced extends React.Component {
     let inputPrivateKeyRow = (
       <div className="content ops row">
         <div className={inputPrivateSize}>
-            <input type={this.state.privateKeyHidden?"password":"text"}  autoCorrect="off" autocapitalize="none" autocapitalize="none" className="form-control" placeholder="private key" value={this.state.newPrivateKey}
+            <input type={this.state.privateKeyHidden?"password":"text"}  autoCorrect="off" autoCapitalize="none" className="form-control" placeholder="private key" value={this.state.newPrivateKey}
                    onChange={event => this.setState({newPrivateKey:event.target.value})} />
         </div>
         {inputPrivateEyeButton}
@@ -136,7 +136,7 @@ export default class Advanced extends React.Component {
     let inputSeedRow = (
       <div className="content ops row" style={{paddingTop:10}}>
         <div className={inputSeedSize}>
-        <input type={this.state.seedPhraseHidden?"password":"text"}  autoCorrect="off" autocapitalize="none" className="form-control" placeholder="seed phrase" value={this.state.newSeedPhrase}
+        <input type={this.state.seedPhraseHidden?"password":"text"}  autoCorrect="off" autoCapitalize="none" className="form-control" placeholder="seed phrase" value={this.state.newSeedPhrase}
                onChange={event => this.setState({newSeedPhrase:event.target.value})} />
         </div>
         {inputSeedEyeButton}
@@ -161,14 +161,13 @@ export default class Advanced extends React.Component {
     )
 
     return (
-      <div style={{marginTop:20}}>
+      <div>
 
         {privateKey && !isVendor &&
         <div>
-          <div style={{width:"100%",textAlign:"center"}}><h5>Secret Private Key</h5></div>
-          <div style={{fontWeight: 300, padding: 15}}>The private key is your secret that unlocks your funds. It is stored in your browser cache. If you loose this private key, your funds are lost as well (device breaks, clearing browser cache, browser or system update). Noone can rescue your funds, except you, if you have done a backup of the private key or the seed phrase.</div>
+          <div style={{fontWeight: 300, padding: 15}}>This is the key to control your funds, keep it secure and private. Don't loose it and don't share it with anybody.</div>
+          <div style={{width:"100%",textAlign:"center"}}><h5>Secret-Private Key</h5></div>
           <div className="content ops row" style={{marginBottom:10}}>
-
             <div className="col-6 p-1">
             <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary} onClick={()=>{
               this.setState({privateKeyQr:!this.state.privateKeyQr})

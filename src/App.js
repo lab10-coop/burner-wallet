@@ -1167,7 +1167,7 @@ render() {
                 </div>
                 <Bottom
                   icon={"wrench"}
-                  text={i18n.t('advance_title')}
+                  text='Backup &amp; Restore'
                   action={()=>{
                     this.changeView('advanced')
                   }}
@@ -1179,7 +1179,7 @@ render() {
               <div>
                 <div className="main-card card w-100" style={{zIndex:1}}>
 
-                  <NavCard title={i18n.t('advance_title')} goBack={this.goBack.bind(this)}/>
+                  <NavCard title='Backup &amp; Restore' goBack={this.goBack.bind(this)}/>
                   <Advanced
                     isVendor={this.state.isVendor && this.state.isVendor.isAllowed}
                     buttonStyle={buttonStyle}

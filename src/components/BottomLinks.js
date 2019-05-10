@@ -7,7 +7,7 @@ export default ({changeView}) => {
       <Scaler config={{startZoomAt:350,origin:"35% 50%",adjustedZoom:1}}>
         <button className={"btn btn-large w-50"} style={{backgroundColor:"#666666",color:"#FFFFFF",padding:10,whiteSpace:"nowrap"}} onClick={()=>{changeView('advanced')}}>
           <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-wrench"/> {i18n.t('advance')}
+            <i className="fas fa-wrench"/> Backup &amp; Restore
           </Scaler>
         </button>
       </Scaler>
