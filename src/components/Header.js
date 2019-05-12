@@ -4,18 +4,18 @@ import burnerloader from '../burnerloader.gif';
 import i18next from 'i18next';
 export  default ({openScanner, network, total, dollarDisplay, ens, title, titleImage, mainStyle, buttonStyle, balance, address, changeView, view}) => {
 
-
   let sendButtonOpacity = 1.0
   if(view=="receive" || view=="send_badge"){
     sendButtonOpacity = 0
   }
 
-
-
   let name = ens
   if(!name){
     name = address.substring(2,8)
   }
+
+  console.log('total: '+ total);
+  console.log(total);
 
   let moneyDisplay
   let blockieDisplay
@@ -73,45 +73,91 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
         <a href="#" style={{color:'#FFFFFF',position:'absolute',left:30,top:28}}>
           <i className="fas fa-qrcode" />
         </a>
-        
       </div>
     </div>
   )
 
-  let showBackupWarningStyle = {
-    zIndex: 3,
-    position:"fixed",
-    height:195,
-    width:'100%',
-    bottom: 0,
-    right: 0,
-    backgroundColor:'#eeeeee'
+
+
+  if(total > 0 && localStorage&&typeof localStorage.setItem == "function"){
+
+    var bottom = <div />
+    var nextBackupWarningID = address+"nextBackupWarning";
+
+    var storedNextBackupWarning =  localStorage.getItem(nextBackupWarningID);
+
+    if (storedNextBackupWarning == null)
+    {
+      storedNextBackupWarning = 0;
+    }
+
+    console.log(storedNextBackupWarning);
+
+    if (total > storedNextBackupWarning) {
+
+      let showBackupWarningStyle = {
+        display: "inline",
+        zIndex: 3,
+        position:"fixed",
+        height:195,
+        width:'100%',
+        bottom: 0,
+        right: 0,
+        backgroundColor:'#ffffff',
+        boxShadow: "0.5px 0.5px 5px #000000"
+      }
+
+      function allreadyDone(){
+        //this number is bigger than the amount of ATS that will ever be.
+        storedNextBackupWarning = 1000000000;
+        localStorage.setItem(nextBackupWarningID, storedNextBackupWarning);
+        
+        //TODO: how to make element invisible in react ? can't edit current display
+        //showBackupWarningStyle['display'] = 'none';
+      }
+
+      function remindMeLater(){
+        if (total < 42){
+          storedNextBackupWarning = 42;
+        } else if (total < 100){
+          storedNextBackupWarning = 100;
+        } else {
+          storedNextBackupWarning = total + 1;
+        }
+
+        localStorage.setItem(nextBackupWarningID, storedNextBackupWarning);
+        //TODO: how to make element invisible in react ? can't edit current display
+        //showBackupWarningStyle.display = 'none';
+      }
+
+      bottom = (
+        <div style={showBackupWarningStyle} >
+          <div style={{position:'relative'}}>
+            <h5 style={{color:mainStyle.mainColor, textAlign:'left', paddingLeft: 10, paddingTop: 10}}> {i18next.t('main_card.backup_reminder_header')} </h5>
+            <div style={{color:'black', paddingLeft: 10, fontWeight: 300}}> {i18next.t('main_card.backup_reminder_text')} </div>
+          </div>
+          <div className="content ops row" style={{padding:15}}>
+            <div  className="col-6 p-1" style={{width: 200}} >
+              <button className="btn w-100" style={buttonStyle.primary} onClick={allreadyDone}>
+                <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
+                  {i18next.t('main_card.backup_reminder_done')}
+                </Scaler>
+              </button>
+            </div>
+            <div  className="col-6 p-1" style={{width: 200}} >
+              <button className="btn w-100" style={buttonStyle.primary} onClick={remindMeLater}>
+                <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
+                  {i18next.t('main_card.backup_reminder_later')}
+                </Scaler>
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    }
   }
 
-  let bottom = (
-    <div style={showBackupWarningStyle} >
-      <div style={{position:'relative'}}>
-        <h5 style={{color:mainStyle.mainColor, textAlign:'left', paddingLeft: 10, paddingTop: 10}}> {i18next.t('main_card.backup_reminder_header')} </h5>
-        <div style={{color:'black', paddingLeft: 10, fontWeight: 300}}> {i18next.t('main_card.backup_reminder_text')} </div>
-      </div>
-      <div class="content ops row" style={{padding:15}}>
-        <div  className="col-6 p-1" style={{width: 200}} >
-          <button className="btn w-100" style={buttonStyle.primary}>
-            <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-              {i18next.t('main_card.backup_reminder_done')}
-            </Scaler>
-          </button>
-        </div>
-        <div  className="col-6 p-1" style={{width: 200}} >
-          <button className="btn w-100" style={buttonStyle.primary}>
-            <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-              {i18next.t('main_card.backup_reminder_later')}
-            </Scaler>
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+  
 
   let opacity = 0.5
 
