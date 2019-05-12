@@ -7,7 +7,6 @@ import Linkify from 'react-linkify'
 import {toArray} from 'react-emoji-render';
 import Ruler from "./Ruler";
 import {CopyToClipboard} from "react-copy-to-clipboard";
-import i18next from 'i18next';
 const QRCode = require('qrcode.react');
 const Transaction = require("ethereumjs-tx")
 const EthUtil = require('ethereumjs-util')

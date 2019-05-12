@@ -1,7 +1,8 @@
 import React from 'react';
 import { Scaler, Blockie } from "dapparatus";
 import burnerloader from '../burnerloader.gif';
-export  default ({openScanner, network, total, dollarDisplay, ens, title, titleImage, mainStyle, balance, address, changeView, view}) => {
+import i18next from 'i18next';
+export  default ({openScanner, network, total, dollarDisplay, ens, title, titleImage, mainStyle, buttonStyle, balance, address, changeView, view}) => {
 
 
   let sendButtonOpacity = 1.0
@@ -72,6 +73,42 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
         <a href="#" style={{color:'#FFFFFF',position:'absolute',left:30,top:28}}>
           <i className="fas fa-qrcode" />
         </a>
+        
+      </div>
+    </div>
+  )
+
+  let showBackupWarningStyle = {
+    zIndex: 3,
+    position:"fixed",
+    height:195,
+    width:'100%',
+    bottom: 0,
+    right: 0,
+    backgroundColor:'#eeeeee'
+  }
+
+  let bottom = (
+    <div style={showBackupWarningStyle} >
+      <div style={{position:'relative'}}>
+        <h5 style={{color:mainStyle.mainColor, textAlign:'left', paddingLeft: 10, paddingTop: 10}}> {i18next.t('main_card.backup_reminder_header')} </h5>
+        <div style={{color:'black', paddingLeft: 10, fontWeight: 300}}> {i18next.t('main_card.backup_reminder_text')} </div>
+      </div>
+      <div class="content ops row" style={{padding:15}}>
+        <div  className="col-6 p-1" style={{width: 200}} >
+          <button className="btn w-100" style={buttonStyle.primary}>
+            <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
+              {i18next.t('main_card.backup_reminder_done')}
+            </Scaler>
+          </button>
+        </div>
+        <div  className="col-6 p-1" style={{width: 200}} >
+          <button className="btn w-100" style={buttonStyle.primary}>
+            <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
+              {i18next.t('main_card.backup_reminder_later')}
+            </Scaler>
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -115,11 +152,14 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
   )
 
 
+
+
   return (
     <div className="header" style={{opacity}}>
       {topLeft}
       {topRight}
       {bottomRight}
+      {bottom}
     </div>
   )
 };

@@ -528,6 +528,7 @@ class App extends Component {
           localStorage.setItem(this.state.account+"loadedBlocksTop","")
           localStorage.setItem(this.state.account+"recentTxs","")
           localStorage.setItem(this.state.account+"transactionsByAddress","")
+          localStorage.setItem(this.state.account+"nextBackupWarning","")
           this.setState({recentTxs:[],transactionsByAddress:{},fullRecentTxs:[],fullTransactionsByAddress:{}})
         }
       }
@@ -1025,6 +1026,7 @@ render() {
         title={this.state.title}
         titleImage={titleImage}
         mainStyle={mainStyle}
+        buttonStyle={buttonStyle}
         address={this.state.account}
         changeView={this.changeView}
         balance={balance}
@@ -1510,6 +1512,7 @@ render() {
                       localStorage.setItem(this.state.account+"metaPrivateKey","")
                       localStorage.setItem(this.state.account+"recentTxs","")
                       localStorage.setItem(this.state.account+"transactionsByAddress","")
+                      localStorage.setItem(this.state.account+"nextBackupWarning","")
                       this.setState({recentTxs:[],transactionsByAddress:{}})
                     }
                   }}
