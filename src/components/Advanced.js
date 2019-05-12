@@ -38,6 +38,14 @@ export default class Advanced extends React.Component {
       return  result;
     }
 
+    // function getSeedprase(pk) {
+    //   var bip39 = require('bip39');
+    //   bip39.setDefaultWordlist('english');
+    //   var mnemonic = bip39.entropyToMnemonic(pk);
+    //   console.log('mnemonic:' + mnemonic);
+    //   return mnemonic;
+    // }
+
     let {isVendor, balance, address, privateKey, changeAlert, changeView, goBack, setPossibleNewPrivateKey} = this.props
 
     let url = window.location.protocol+"//"+window.location.hostname
@@ -53,6 +61,7 @@ export default class Advanced extends React.Component {
           <div className="content qr row">
             <QRCode value={qrValue} size={qrSize}/>
             <div style={{textAlign: 'center', fontWeight: 300,width: '100%'}} >{formatPKReadable(privateKey)}</div>
+            {/* <div style={{textAlign: 'center', fontWeight: 300,width: '100%'}} >{getSeedprase(privateKey)}</div> */}
           </div>
         </div>
       )
