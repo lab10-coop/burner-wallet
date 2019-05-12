@@ -44,31 +44,33 @@ export default ({dollarDisplay, view, max, buttonStyle, ERC20TOKEN, vendorName, 
     let thisValue = parseFloat(recentTxs[r].value)
     if(thisValue>0.0){
 
-      let extraUp = 4
+      let extraUp = 10
       if(view=="receive"){
-        extraUp=-10
+        extraUp=-4
       }
       let extraIcon = ""
-      if(recentTxs[r].data){
+
+      if (recentTxs[r].status) {
+
+        var extraIconText = '';
+        var extraIconColor = 'red';
+
+        if (recentTxs[r].status == '0x0') {
+          extraIconText = '❌';
+          extraIconColor = 'red';
+        } else if (recentTxs[r].status == '0x1') {
+          extraIconText = '✔️';
+          extraIconColor = 'green';
+        } else {
+          extraIconText = recentTxs[r].status;
+        }
+
         extraIcon = (
-          <div style={{position:'absolute',right:-3,top:extraUp}}>
-            <button className="btn btn-large w-100" style={buttonStyle.primary}>
-              <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                <i className="fas fa-comment"></i>
-              </Scaler>
-            </button>
+          <div style={{position:'absolute',right:15,top:extraUp}}>
+            <div style={{color:extraIconColor, fontSize:25}}>{extraIconText}</div>
           </div>
         )
-      }else{
-        extraIcon = (
-          <div style={{position:'absolute',right:-3,top:extraUp}}>
-            <button className="btn btn-large w-100" style={buttonStyle.secondary}>
-              <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                <i className="fas fa-comment"></i>
-              </Scaler>
-            </button>
-          </div>
-        )
+
       }
 
       let dollarView
@@ -188,9 +190,9 @@ export default ({dollarDisplay, view, max, buttonStyle, ERC20TOKEN, vendorName, 
                 {toBlockie}
                 <div style={{display: 'block',textAlign:'center', fontWeight: 300, fontSize: 10, letterSpacing: 0}}>{formatAddressReadable(recentTxs[r].to)}</div>
               </div>
-              <div className="col-2 p-1" style={{textAlign:'center',whiteSpace:"nowrap",letterSpacing:-1}}>
+              <div className="col-2 p-1" style={{textAlign:'center',whiteSpace:"nowrap",letterSpacing:-1, top:10, right:25}}>
                 <Scaler config={{startZoomAt:600,origin:"25% 50%",adjustedZoom:1}}>
-                <span style={{marginLeft:5,marginTop:-5,opacity:0.4,fontSize:12}}>{cleanTime((blockAge)*5)} ago</span>
+                <span style={{marginLeft:5,marginTop:0,opacity:0.4,fontSize:12}}>{cleanTime((blockAge)*5)} ago</span>
                 </Scaler>
               </div>
 

@@ -768,7 +768,7 @@ async parseBlocks(parseBlock,recentTxs,transactionsByAddress){
               smallerTx.data = " *** unable to decrypt data *** "
             }
           }
-          updatedTxs = this.addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx) || updatedTxs
+          updatedTxs = await this.addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx) || updatedTxs
         }
 
       }
@@ -831,7 +831,7 @@ initRecentTxs(){
   }
   return [recentTxs,transactionsByAddress]
 }
-addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx){
+async addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx){
   let updatedTxs = false
 
   let otherAccount = smallerTx.to
@@ -856,9 +856,18 @@ addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx){
       }
     }
     if(!found){
+
+      
+      var txReceipt =  await this.state.web3.eth.getTransactionReceipt(smallerTx.hash);
+      console.log('got tx receipt: ', txReceipt);
+      
+      smallerTx.status = txReceipt.status;
       updatedTxs=true
       recentTxs.push(smallerTx)
-      //console.log("recentTxs after push",recentTxs)
+      console.log("recentTxs after push",recentTxs)
+      console.log("smaller TX:")
+      console.log(smallerTx);
+      
     }
   }
 
@@ -919,7 +928,7 @@ async addAllTransactionsFromList(recentTxs,transactionsByAddress,theList){
         }catch(e){}
       }
     }
-    updatedTxs = this.addTxIfAccountMatches(recentTxs,transactionsByAddress,cleanEvent) || updatedTxs
+    updatedTxs = await this.addTxIfAccountMatches(recentTxs,transactionsByAddress,cleanEvent) || updatedTxs
   }
   return updatedTxs
 }
@@ -954,7 +963,7 @@ render() {
   if(web3 && !this.checkNetwork() && view!="exchange"){
     networkOverlay = (
       <div>
-        <input style={{zIndex:13,position:'absolute',opacity:0.95,right:48,top:192,width:194}} value="https://dai.poa.network" />
+        <input style={{zIndex:13,position:'absolute',opacity:0.95,right:48,top:192,width:194}} value="https://rpc.sigma1.artis.network" />
         <img style={{zIndex:12,position:'absolute',opacity:0.95,right:0,top:0,maxHeight:370}} src={customRPCHint} />
       </div>
     )
@@ -967,7 +976,7 @@ render() {
       <div>
       <Transactions
       key="Transactions"
-      config={{DEBUG: false, hide: true}}
+      config={{DEBUG: true, hide: true}}
       account={account}
       gwei={gwei}
       web3={web3}
