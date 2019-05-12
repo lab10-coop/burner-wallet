@@ -109,14 +109,6 @@ export default class History extends React.Component {
       smooth: "easeInOutCubic",
     })
   }
-  onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    // 'keypress' event misbehaves on mobile so we track 'Enter' key via 'keydown' event
-    if (event.key === 'Enter' && (this.state.newChat||this.state.newChatAmount)) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.sendChat();
-    }
-  }
   async sendChat(){
     this.setState({sendingChat:true})
     let value = 0
@@ -267,11 +259,34 @@ export default class History extends React.Component {
             </div>
           )
         }else{
+
+          var extraIcon = "";
+
+          if (theseTransactionsByAddress[r].status) {
+            var extraIconText = '';
+            var extraIconColor = 'red';
+            if (theseTransactionsByAddress[r].status == '0x0') {
+              extraIconText = '❌';
+              extraIconColor = 'red';
+            } else if (theseTransactionsByAddress[r].status == '0x1') {
+              extraIconText = '✔️';
+              extraIconColor = 'green';
+            } else {
+              extraIconText = theseTransactionsByAddress[r].status;
+            }
+            extraIcon = (
+              <div style={{position:'absolute',left:10,top:6}}>
+                <div style={{color:extraIconColor, fontSize:25}}>{extraIconText}</div>
+              </div>
+            )
+          }
           txns.push(
             <div key={"tx"+r} style={{paddingTop:3,paddingBottom:21}}>
               <Ruler />
+              
               <div className="content ops row" style={{position:"relative",paddingTop:3}}>
-                <div style={{position:'absolute',left:0,top:6,opacity:0.5,fontSize:12}}>
+                {extraIcon}
+                <div style={{position:'absolute',left:50,top:6,opacity:0.5,fontSize:12}}>
                   {cleanTime((block-theseTransactionsByAddress[r].blockNumber)*5)} ago
                 </div>
                 <div style={{color:"#000000",width:"100%",marginTop:-2}}>
