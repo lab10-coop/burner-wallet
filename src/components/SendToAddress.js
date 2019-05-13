@@ -13,7 +13,7 @@ export default class SendToAddress extends React.Component {
   constructor(props) {
     super(props);
 
-
+    this.currentTxGasLimit = 120000;
 
     console.log("!!!!!!!!!!!!!!!!!!!!!!!! window.location.search",window.location.search,parsed)
 
@@ -157,6 +157,11 @@ export default class SendToAddress extends React.Component {
     })
   }
 
+  calcCurrentGasCosts(){
+    //todo: currently hardcoded 1 gwei.
+    return this.currentTxGasLimit / 1000000000.0;
+  }
+
   send = async () => {
     let { toAddress, amount } = this.state;
     let {ERC20TOKEN, dollarDisplay, convertToDollar} = this.props
@@ -175,12 +180,13 @@ export default class SendToAddress extends React.Component {
       if(!ERC20TOKEN && parseFloat(this.props.balance) <= 0){
         console.log("No funds!?!",ERC20TOKEN,parseFloat(this.props.balance))
         this.props.changeAlert({type: 'warning', message: "No Funds."})
-      }else if(!ERC20TOKEN && parseFloat(this.props.balance)-0.0001<=parseFloat(amount)){
+        
+      }else if(!ERC20TOKEN && parseFloat(this.props.balance)-this.calcCurrentGasCosts()<parseFloat(amount)){
         let extraHint = ""
-        if(!ERC20TOKEN && parseFloat(amount)-parseFloat(this.props.balance)<=.01){
+        if(!ERC20TOKEN && parseFloat(amount)-parseFloat(this.props.balance)<=this.calcCurrentGasCosts()){
           extraHint = "(gas costs)"
         }
-        this.props.changeAlert({type: 'warning', message: 'Not enough funds: '+dollarDisplay(Math.floor((parseFloat(this.props.balance)-0.0001)*100)/100)+' '+extraHint})
+        this.props.changeAlert({type: 'warning', message: 'Not enough funds: '+dollarDisplay(Math.floor((parseFloat(this.props.balance)-this.calcCurrentGasCosts())*100)/100)+' '+extraHint})
       }else if((ERC20TOKEN && (parseFloat(this.props.balance)<parseFloat(amount)))){
         console.log("SO THE BALANCE IS LESS!")
         this.props.changeAlert({type: 'warning', message: 'Not enough tokens: $'+parseFloat(this.props.balance)})
@@ -205,7 +211,10 @@ export default class SendToAddress extends React.Component {
         cookie.remove('sendToStartMessage', { path: '/' })
         cookie.remove('sendToAddress', { path: '/' })
 
-        this.props.send(toAddress, value, 120000, txData, (result) => {
+        console.log('sending ' + value + ' with gas ', this.currentTxGasLimit);
+        
+        this.props.send(toAddress, value, this.currentTxGasLimit, txData, (result) => {
+          this.currentTxGasLimit = 120000;
           if(result && result.transactionHash){
             this.props.goBack();
             window.history.pushState({},"", "/");
@@ -306,6 +315,30 @@ export default class SendToAddress extends React.Component {
                 <div className="input-group-text">{dollarSymbol}</div>
               </div>
               {amountInputDisplay}
+              <div onClick={async ()=>{
+
+                  this.currentTxGasLimit = 21000; // 0.000021;
+
+                  if (this.state.message != null) {
+                    var result = await this.props.web3.eth.estimateGas({
+                      from: this.state.toAddress,
+                      // token contract address
+                      to: this.state.toAddress,
+                      data: this.props.web3.utils.utf8ToHex(this.state.message)
+                    });
+
+                    console.log('estimated gas: ' + result);
+                    // we round it up so we reduce errors due the problems with floating points the burner wallet had.
+                    // not a perfect solution, but it works.
+                    this.currentTxGasLimit = Math.ceil(result/1000)*1000; 
+                  }
+
+                  this.updateState('amount', (this.props.balance > this.calcCurrentGasCosts())  ? (this.props.balance - this.calcCurrentGasCosts()) : 0 )
+                }}>
+                <span className="all-button">
+                  ALL
+                </span>
+              </div>
             </div>
             <div className="form-group w-100" style={{marginTop:20}}>
               <label htmlFor="amount_input">{messageText}</label>

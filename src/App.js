@@ -13,6 +13,7 @@ import SendBadge from './components/SendBadge';
 import WithdrawFromPrivate from './components/WithdrawFromPrivate';
 import RequestFunds from './components/RequestFunds';
 import SendWithLink from './components/SendWithLink';
+import Receipt from './components/Receipt';
 import Receive from './components/Receive'
 import Share from './components/Share'
 import ShareLink from './components/ShareLink'
@@ -25,7 +26,7 @@ import Advanced from './components/Advanced';
 import RecentTransactions from './components/RecentTransactions';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
-import burnerlogo from './burnerwallet.png';
+import burnerlogo from './burnerwallet.svg';
 import BurnWallet from './components/BurnWallet'
 import Bottom from './components/Bottom';
 import customRPCHint from './customRPCHint.png';
@@ -269,7 +270,7 @@ class App extends Component {
     this.state = {
       web3: false,
       account: false,
-      gwei: 1.1,
+      gwei: 1.0,
       view: view,
       sendLink: "",
       sendKey: "",
@@ -527,6 +528,7 @@ class App extends Component {
           localStorage.setItem(this.state.account+"loadedBlocksTop","")
           localStorage.setItem(this.state.account+"recentTxs","")
           localStorage.setItem(this.state.account+"transactionsByAddress","")
+          localStorage.setItem(this.state.account+"nextBackupWarning","")
           this.setState({recentTxs:[],transactionsByAddress:{},fullRecentTxs:[],fullTransactionsByAddress:{}})
         }
       }
@@ -766,7 +768,7 @@ async parseBlocks(parseBlock,recentTxs,transactionsByAddress){
               smallerTx.data = " *** unable to decrypt data *** "
             }
           }
-          updatedTxs = this.addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx) || updatedTxs
+          updatedTxs = await this.addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx) || updatedTxs
         }
 
       }
@@ -829,7 +831,7 @@ initRecentTxs(){
   }
   return [recentTxs,transactionsByAddress]
 }
-addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx){
+async addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx){
   let updatedTxs = false
 
   let otherAccount = smallerTx.to
@@ -854,9 +856,18 @@ addTxIfAccountMatches(recentTxs,transactionsByAddress,smallerTx){
       }
     }
     if(!found){
+
+      
+      var txReceipt =  await this.state.web3.eth.getTransactionReceipt(smallerTx.hash);
+      console.log('got tx receipt: ', txReceipt);
+      
+      smallerTx.status = txReceipt.status;
       updatedTxs=true
       recentTxs.push(smallerTx)
-      //console.log("recentTxs after push",recentTxs)
+      console.log("recentTxs after push",recentTxs)
+      console.log("smaller TX:")
+      console.log(smallerTx);
+      
     }
   }
 
@@ -917,7 +928,7 @@ async addAllTransactionsFromList(recentTxs,transactionsByAddress,theList){
         }catch(e){}
       }
     }
-    updatedTxs = this.addTxIfAccountMatches(recentTxs,transactionsByAddress,cleanEvent) || updatedTxs
+    updatedTxs = await this.addTxIfAccountMatches(recentTxs,transactionsByAddress,cleanEvent) || updatedTxs
   }
   return updatedTxs
 }
@@ -952,7 +963,7 @@ render() {
   if(web3 && !this.checkNetwork() && view!="exchange"){
     networkOverlay = (
       <div>
-        <input style={{zIndex:13,position:'absolute',opacity:0.95,right:48,top:192,width:194}} value="https://dai.poa.network" />
+        <input style={{zIndex:13,position:'absolute',opacity:0.95,right:48,top:192,width:194}} value="https://rpc.sigma1.artis.network" />
         <img style={{zIndex:12,position:'absolute',opacity:0.95,right:0,top:0,maxHeight:370}} src={customRPCHint} />
       </div>
     )
@@ -965,7 +976,7 @@ render() {
       <div>
       <Transactions
       key="Transactions"
-      config={{DEBUG: false, hide: true}}
+      config={{DEBUG: true, hide: true}}
       account={account}
       gwei={gwei}
       web3={web3}
@@ -1024,6 +1035,7 @@ render() {
         title={this.state.title}
         titleImage={titleImage}
         mainStyle={mainStyle}
+        buttonStyle={buttonStyle}
         address={this.state.account}
         changeView={this.changeView}
         balance={balance}
@@ -1081,6 +1093,7 @@ render() {
                     web3={this.state.web3}
                     goBack={this.goBack.bind(this)}
                     dollarDisplay={dollarDisplay}
+                    network={this.state.network}
                   />
                 </div>
                 <Bottom
@@ -1165,7 +1178,7 @@ render() {
                 </div>
                 <Bottom
                   icon={"wrench"}
-                  text={i18n.t('advance_title')}
+                  text='Backup &amp; Restore'
                   action={()=>{
                     this.changeView('advanced')
                   }}
@@ -1177,7 +1190,7 @@ render() {
               <div>
                 <div className="main-card card w-100" style={{zIndex:1}}>
 
-                  <NavCard title={i18n.t('advance_title')} goBack={this.goBack.bind(this)}/>
+                  <NavCard title='Backup &amp; Restore' goBack={this.goBack.bind(this)}/>
                   <Advanced
                     isVendor={this.state.isVendor && this.state.isVendor.isAllowed}
                     buttonStyle={buttonStyle}
@@ -1307,7 +1320,35 @@ render() {
             );
             case 'receipt':
             return (
-              <div>Receipt is not implemented</div>
+              <div>
+              <div className="main-card card w-100" style={{zIndex:1}}>
+
+                <NavCard title={i18n.t('receipt_title')} goBack={this.goBack.bind(this)}/>
+                <Receipt
+                  receipt={this.state.receipt}
+                  view={this.state.view}
+                  block={this.state.block}
+                  ensLookup={this.ensLookup.bind(this)}
+                  ERC20TOKEN={ERC20TOKEN}
+                  buttonStyle={buttonStyle}
+                  balance={balance}
+                  web3={this.state.web3}
+                  address={account}
+                  send={send}
+                  goBack={this.goBack.bind(this)}
+                  changeView={this.changeView}
+                  changeAlert={this.changeAlert}
+                  dollarDisplay={dollarDisplay}
+                  transactionsByAddress={this.state.transactionsByAddress}
+                  fullTransactionsByAddress={this.state.fullTransactionsByAddress}
+                  fullRecentTxs={this.state.fullRecentTxs}
+                  recentTxs={this.state.recentTxs}
+                />
+              </div>
+              <Bottom
+                action={this.goBack.bind(this)}
+              />
+            </div>
             );
             case 'receive':
             return (
@@ -1480,6 +1521,7 @@ render() {
                       localStorage.setItem(this.state.account+"metaPrivateKey","")
                       localStorage.setItem(this.state.account+"recentTxs","")
                       localStorage.setItem(this.state.account+"transactionsByAddress","")
+                      localStorage.setItem(this.state.account+"nextBackupWarning","")
                       this.setState({recentTxs:[],transactionsByAddress:{}})
                     }
                   }}
@@ -1633,7 +1675,7 @@ render() {
         onUpdate={(state)=>{
           console.log("Gas price update:",state)
           this.setState(state,()=>{
-            this.state.gwei += 0.1
+            this.state.gwei = 1000000000
             console.log("GWEI set:",this.state)
           })
         }}

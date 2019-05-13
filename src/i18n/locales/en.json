@@ -10,8 +10,6 @@
     "receive_title": "Receive",
     "receipt_title": "Receipt",
     "send_to_address_title": "Send to Address",
-    "advance": "Advanced",
-    "advance_title": "Advanced",
     "loading": "Loading...",
     "cancel": "Cancel",
     "done": "Done",
@@ -19,7 +17,7 @@
     "amount": "Amount",
     "send": "Send",
     "withdraw": "Withdraw",
-    "history_chat": "History & Chat",
+    "history_chat": "History",
     "request_funds_title": "Request funds",
     "request": "Request",
     "vendors": "Vendors",
@@ -28,7 +26,12 @@
       "send": "Send",
       "share": "Share",
       "link": "Link",
-      "vendors": "Vendors"
+      "vendors": "Vendors",
+      "backup_reminder_header": "Secure your private key",
+      "backup_reminder_text": "To assure the safety of your funds please secure your private key in the Backup & Restore section",
+      "backup_reminder_done": "Allready done",
+      "backup_reminder_later": "Remind me later"
+
     },
     "send_with_link": {
       "error": "Please enter a valid amount"

@@ -7,7 +7,6 @@ import Linkify from 'react-linkify'
 import {toArray} from 'react-emoji-render';
 import Ruler from "./Ruler";
 import {CopyToClipboard} from "react-copy-to-clipboard";
-import i18next from 'i18next';
 const QRCode = require('qrcode.react');
 const Transaction = require("ethereumjs-tx")
 const EthUtil = require('ethereumjs-util')
@@ -38,6 +37,8 @@ export default class History extends React.Component {
   componentWillUnmount(){
     clearInterval(interval)
   }
+
+
   async poll(){
     let {transactionsByAddress,target} = this.props
     let theseTransactionsByAddress = []
@@ -161,6 +162,8 @@ export default class History extends React.Component {
     })
   }
   render(){
+
+
     let {transactionsByAddress,address,changeView,block,goBack,target,buttonStyle} = this.props
 
     let theseTransactionsByAddress = []
@@ -284,81 +287,6 @@ export default class History extends React.Component {
       }
     }
 
-    let sendChatButton = ""
-    let sendFundsButton = ""
-    if(this.state.sendingChat){
-      sendChatButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#666666"}}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-cog fa-spin"></i>
-          </Scaler>
-        </button>
-      )
-      sendFundsButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#666666"}}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-cog fa-spin"></i>
-          </Scaler>
-        </button>
-      )
-    }else{
-      sendChatButton = (
-        <button className="btn btn-large w-100" style={buttonStyle.primary}
-                onClick={this.sendChat.bind(this)}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-comment"/>
-          </Scaler>
-        </button>
-      )
-      sendFundsButton = (
-        <button className="btn btn-large w-100" style={buttonStyle.secondary}
-                onClick={this.sendChat.bind(this)}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-comment"/>
-          </Scaler>
-        </button>
-      )
-    }
-
-
-    let waveButton = ""
-    if(this.state.waving){
-      waveButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#666666"}}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-cog fa-spin"></i>
-          </Scaler>
-        </button>
-      )
-    }else if(this.props.metaAccount){
-      waveButton = (
-        <button className="btn btn-large w-100" style={buttonStyle.primary}
-                onClick={()=>{
-                  this.setState({waving:true})
-                  this.props.send(this.props.target, 0, 120000, this.props.web3.utils.utf8ToHex(":wave:"), (result) => {
-                    if(result && result.transactionHash){
-                      this.setState({waving:false})
-                    }
-                  })
-                }}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-handshake"/> {i18next.t('history.wave')}
-          </Scaler>
-        </button>
-      )
-    }else{
-      waveButton = (
-        <button className="btn btn-large w-100" style={{whiteSpace:"nowrap",backgroundColor:"#aaaaaa"}}
-                onClick={()=>{
-                  this.props.changeAlert({type: 'warning', message: i18next.t('history.metamask_error')})
-                }}>
-          <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-            <i className="fas fa-handshake"/> {i18next.t('history.wave')}
-          </Scaler>
-        </button>
-      )
-    }
-
     /*
     <div className="col-3 p-1">
       <button className="btn btn-large w-100" style={{whiteSpace:"nowrap"}}
@@ -371,93 +299,35 @@ export default class History extends React.Component {
       </button>
     </div>
      */
-    let sendForm
 
-    let placeholder="unencrypted public chat..."
-    if(this.state["publicKey_"+target]){
-      placeholder = "encrypted chat..."
-    }
+    var network = this.props.network;
+    var blockscoutURL = "";
 
-    let chatInput = (
-      <input disabled={this.state.sendingChat} type="text" className="form-control" placeholder={placeholder} value={this.state.newChat}
-        ref={(input) => { this.nameInput = input; }}
-        onKeyDown={this.onKeyDown}
-        onChange={event => this.setState({newChat:event.target.value})}
-      />
-    )
-
-    if(this.state.sendingFunds){
-      sendForm = (
-        <div className="content ops row">
-          <div className="col-4 p-1">
-            <div className="input-group">
-              <div className="input-group-prepend" onClick={()=>{
-                  this.setState({sendingFunds:false},()=>{
-                    setTimeout(()=>{
-                      this.nameInput.focus();
-                    },250)
-                  })
-              }}>
-                <div className="input-group-text">$</div>
-              </div>
-              <input type="number" step="0.1" onKeyDown={this.onKeyDown} className="form-control" placeholder="0.00" value={this.state.newChatAmount}
-                ref={(input) => { this.amountInput = input; }}
-                     onChange={event => this.setState({newChatAmount:event.target.value})}
-              />
-            </div>
-          </div>
-          <div className="col-6 p-1">
-            {chatInput}
-          </div>
-          <div className="col-2 p-1">
-            {sendChatButton}
-          </div>
-        </div>
-      )
-    }else{
-      sendForm = (
-        <div className="content ops row">
-          <div className="col-2 p-1">
-            <button className="btn btn-large w-100" style={buttonStyle.secondary}
-              onClick={()=>{
-                this.setState({sendingFunds:true},()=>{
-                  setTimeout(()=>{
-                    this.amountInput.focus();
-                  },250)
-                })
-              }}>
-              <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                <i className="fas fa-money-bill-wave"/>
-              </Scaler>
-            </button>
-          </div>
-          <div className="col-8 p-1">
-           {chatInput}
-          </div>
-          <div className="col-2 p-1">
-            {sendChatButton}
-          </div>
-        </div>
-      )
-    }
-
-    let isEncrypted = ""
-    if(this.state["publicKey_"+target]){
-      isEncrypted = (
-        <i className="fa fa-lock" style={{fontSize:30,opacity:0.8,position:'absolute',left:50,top:10}} aria-hidden="true"></i>
-      )
+    if(network === "ARTIS Sigma1") {
+      blockscoutURL = "https://explorer.sigma1.artis.network";
+    } else if (network === "ARTIS Tau1") {
+      blockscoutURL = "https://explorer.tau1.artis.network";
+    } else {
+      blockscoutURL = "https://blockscout.com/poa/dai";
     }
 
     return (
       <div style={{marginTop:20}}>
           <div className="content ops row">
             <div className="col-2 p-1">
-              <a href={"https://blockscout.com/poa/dai/address/"+target+"/transactions"} target="_blank">
-                <Blockies seed={target} scale={5}/> {isEncrypted}
+              <a href={blockscoutURL + "/address/"+target+"/transactions"} target="_blank">
+                <Blockies seed={target} scale={5}/>
               </a>
+              
             </div>
 
-            <div className="col-4 p-1">
+            <div className="col-8 p-1" >
+              <div style={{paddingTop: '10px'}}>
+                {target}
+              </div>
+            </div>
+
+            <div className="col-2 p-1">
               <CopyToClipboard text={target}>
                 <button className="btn btn-large w-100" style={buttonStyle.secondary}
                   onClick={() => this.props.changeAlert({type: 'success', message: target+' copied to clipboard'})}>
@@ -467,22 +337,8 @@ export default class History extends React.Component {
                 </button>
               </CopyToClipboard>
             </div>
-            <div className="col-2 p-1">
-            </div>
-            <div className="col-4 p-1">
-              {waveButton}
-            </div>
-
           </div>
-
         {txns}
-
-        <Ruler />
-
-        <div name="sendForm"></div>
-        {sendForm}
-
-
       </div>
     )
   }

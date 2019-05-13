@@ -16,6 +16,36 @@ export default class Advanced extends React.Component {
     }
   }
   render(){
+    
+    function formatPKReadable(inputPK, breakerChar = ' ') {  
+      let result = '';
+      if (inputPK.length != 66) {
+        console.warn('dont understand address: ' + inputPK );
+        return inputPK;
+      }
+  
+      result = inputPK.slice(0, 6) + breakerChar
+             + inputPK.slice(6, 12) + breakerChar
+             + inputPK.slice(12, 18) + breakerChar
+             + inputPK.slice(18, 24) + breakerChar
+             + inputPK.slice(24, 30) + breakerChar
+             + inputPK.slice(30, 36) + breakerChar
+             + inputPK.slice(36, 42) + breakerChar
+             + inputPK.slice(42, 48) + breakerChar
+             + inputPK.slice(54, 60) + breakerChar
+             + inputPK.slice(60, 66)
+
+      return  result;
+    }
+
+    // function getSeedprase(pk) {
+    //   var bip39 = require('bip39');
+    //   bip39.setDefaultWordlist('english');
+    //   var mnemonic = bip39.entropyToMnemonic(pk);
+    //   console.log('mnemonic:' + mnemonic);
+    //   return mnemonic;
+    // }
+
     let {isVendor, balance, address, privateKey, changeAlert, changeView, goBack, setPossibleNewPrivateKey} = this.props
 
     let url = window.location.protocol+"//"+window.location.hostname
@@ -30,6 +60,8 @@ export default class Advanced extends React.Component {
         <div className="main-card card w-100">
           <div className="content qr row">
             <QRCode value={qrValue} size={qrSize}/>
+            <div style={{textAlign: 'center', fontWeight: 300,width: '100%'}} >{formatPKReadable(privateKey)}</div>
+            {/* <div style={{textAlign: 'center', fontWeight: 300,width: '100%'}} >{getSeedprase(privateKey)}</div> */}
           </div>
         </div>
       )
@@ -65,7 +97,7 @@ export default class Advanced extends React.Component {
     let inputPrivateKeyRow = (
       <div className="content ops row">
         <div className={inputPrivateSize}>
-            <input type={this.state.privateKeyHidden?"password":"text"}  autoCorrect="off" autocapitalize="none" autocapitalize="none" className="form-control" placeholder="private key" value={this.state.newPrivateKey}
+            <input type={this.state.privateKeyHidden?"password":"text"}  autoCorrect="off" autoCapitalize="none" className="form-control" placeholder="private key" value={this.state.newPrivateKey}
                    onChange={event => this.setState({newPrivateKey:event.target.value})} />
         </div>
         {inputPrivateEyeButton}
@@ -113,7 +145,7 @@ export default class Advanced extends React.Component {
     let inputSeedRow = (
       <div className="content ops row" style={{paddingTop:10}}>
         <div className={inputSeedSize}>
-        <input type={this.state.seedPhraseHidden?"password":"text"}  autoCorrect="off" autocapitalize="none" className="form-control" placeholder="seed phrase" value={this.state.newSeedPhrase}
+        <input type={this.state.seedPhraseHidden?"password":"text"}  autoCorrect="off" autoCapitalize="none" className="form-control" placeholder="seed phrase" value={this.state.newSeedPhrase}
                onChange={event => this.setState({newSeedPhrase:event.target.value})} />
         </div>
         {inputSeedEyeButton}
@@ -138,16 +170,13 @@ export default class Advanced extends React.Component {
     )
 
     return (
-      <div style={{marginTop:20}}>
-      <hr style={{paddingTop:20}}/>
-
-
+      <div>
 
         {privateKey && !isVendor &&
         <div>
-                    <div style={{width:"100%",textAlign:"center"}}><h5>Private Key</h5></div>
+          <div style={{fontWeight: 300, padding: 15}}>This is the key to control your funds, keep it secure and private. Don't loose it and don't share it with anybody.</div>
+          <div style={{width:"100%",textAlign:"center"}}><h5>Secret-Private Key</h5></div>
           <div className="content ops row" style={{marginBottom:10}}>
-
             <div className="col-6 p-1">
             <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary} onClick={()=>{
               this.setState({privateKeyQr:!this.state.privateKeyQr})
@@ -202,25 +231,7 @@ export default class Advanced extends React.Component {
 
         {inputSeedRow}
 
-        <hr style={{paddingTop:20}}/>
-        <div style={{width:"100%",textAlign:"center"}}><h5>Extra Tools</h5></div>
 
-        <div className="content ops row">
-          <div className="col-6 p-1">
-              <input type="text" autoCorrect="off" autocapitalize="none" className="form-control" placeholder="any text to encode" value={this.state.newQr}
-                     onChange={event => this.setState({newQr:event.target.value})} />
-          </div>
-          <div className="col-6 p-1">
-            <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary}
-                    onClick={()=>{
-                      this.setState({showingQr:this.state.newQr})
-                    }}>
-              <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
-                <i className="fas fa-qrcode"/> {i18n.t('advanced.to_qr')}
-              </Scaler>
-            </button>
-          </div>
-        </div>
         {showingQr}
 
         {isVendor &&
