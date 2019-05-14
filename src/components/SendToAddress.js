@@ -340,12 +340,7 @@ export default class SendToAddress extends React.Component {
                 </span>
               </div>
             </div>
-            <div className="form-group w-100" style={{marginTop:20}}>
-              <label htmlFor="amount_input">{messageText}</label>
-              <input type="text" className="form-control" placeholder="optional unencrypted message" value={this.state.message}
-                ref={(input) => { this.messageInput = input; }}
-                     onChange={event => this.updateState('message', event.target.value)} />
-            </div>
+            
           </div>
           <button name="theVeryBottom" className={`btn btn-lg w-100 ${canSend ? '' : 'disabled'}`} style={this.props.buttonStyle.primary}
                   onClick={this.send}>
