@@ -8,7 +8,7 @@
     "bootstrap": "^4.1.3",
     "cors": "^2.8.4",
     "crypto": "^1.0.1",
-    "dapparatus": "git+https://github.com/lab10-coop/dapparatus.git#71fbed6334612ea5ade813ca1047af80d1f74442",
+    "dapparatus": "git+https://github.com/lab10-coop/dapparatus.git#0c3380418271632612918428cd2756e1c0e44cf6",
     "dotenv": "^6.2.0",
     "eccrypto": "^1.1.0",
     "eth-crypto": "^1.3.2",

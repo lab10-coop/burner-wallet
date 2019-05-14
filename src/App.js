@@ -1583,11 +1583,12 @@ render() {
 
         <Dapparatus
         config={{
-          DEBUG: false,
+          DEBUG: true,
           hide: true,
           //TODO: find out whats all about this.
           requiredNetwork: ['Unknown', 'ARTIS tau1', 'ARTIS sigma1'],
           metatxAccountGenerator: false,
+          ignoreWeb3Injection: true
         }}
         //used to pass a private key into Dapparatus
         newPrivateKey={this.state.newPrivateKey}
