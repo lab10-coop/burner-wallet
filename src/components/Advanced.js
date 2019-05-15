@@ -174,7 +174,7 @@ export default class Advanced extends React.Component {
 
         {privateKey && !isVendor &&
         <div>
-          <div style={{fontWeight: 300, padding: 15}}>This is the key to control your funds, keep it secure and private. Don't loose it and don't share it with anybody.</div>
+          <div style={{fontWeight: 300, padding: 15}}>This is the key to control your funds, keep it secure and private. Don't lose it!</div>
           <div style={{width:"100%",textAlign:"center"}}><h5>Secret-Private Key</h5></div>
           <div className="content ops row" style={{marginBottom:10}}>
             <div className="col-6 p-1">
