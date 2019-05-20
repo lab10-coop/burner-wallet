@@ -495,8 +495,8 @@ class App extends Component {
   //      this.setState({ethprice})
   //    })
   // }
-  setPossibleNewPrivateKey(value){
-    this.setState({possibleNewPrivateKey:value},()=>{
+  setPossibleNewPrivateKey(value, mnemonic){
+    this.setState({possibleNewPrivateKey:value, possibleNewPrivateKeyMnemonic:mnemonic},()=>{
       this.dealWithPossibleNewPrivateKey()
     })
   }
@@ -524,7 +524,10 @@ class App extends Component {
             this.changeView('withdraw_from_private')
           })
         }else{
-          this.setState({possibleNewPrivateKey:false,newPrivateKey:this.state.possibleNewPrivateKey})
+          console.log("setting new private key mnemonic: " + this.state.possibleNewPrivateKeyMnemonic);
+          //do idea how and where newPrivateKey gets stored. storing mnemonic just here.
+
+          this.setState({possibleNewPrivateKey:false,newPrivateKey:this.state.possibleNewPrivateKey,newPrivateKeyMnemonic:this.state.possibleNewPrivateKeyMnemonic,possibleNewPrivateKeyMnemonic:false})
           localStorage.setItem(this.state.account+"loadedBlocksTop","")
           localStorage.setItem(this.state.account+"recentTxs","")
           localStorage.setItem(this.state.account+"transactionsByAddress","")
@@ -1519,6 +1522,7 @@ render() {
                     if(localStorage&&typeof localStorage.setItem == "function"){
                       localStorage.setItem(this.state.account+"loadedBlocksTop","")
                       localStorage.setItem(this.state.account+"metaPrivateKey","")
+                      localStorage.setItem(this.state.account+"metaPrivateKeyMnemonic","")
                       localStorage.setItem(this.state.account+"recentTxs","")
                       localStorage.setItem(this.state.account+"transactionsByAddress","")
                       localStorage.setItem(this.state.account+"nextBackupWarning","")
@@ -1583,8 +1587,9 @@ render() {
 
         <Dapparatus
         config={{
-          DEBUG: true,
+          DEBUG: false,
           hide: true,
+          POLLINTERVAL: 5000,
           //TODO: find out whats all about this.
           requiredNetwork: ['Unknown', 'ARTIS tau1', 'ARTIS sigma1'],
           metatxAccountGenerator: false,

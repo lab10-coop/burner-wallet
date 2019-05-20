@@ -3,6 +3,7 @@ import { Scaler } from "dapparatus";
 import Ruler from "./Ruler";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import i18n from '../i18n';
+import pkutils from './pkutils';
 const QRCode = require('qrcode.react');
 
 export default class Advanced extends React.Component {
@@ -106,8 +107,6 @@ export default class Advanced extends React.Component {
                   onClick={()=>{
                     console.log(this.state.newPrivateKey)
                     if(this.state && this.state.newPrivateKey && this.state.newPrivateKey.length>=64&&this.state.newPrivateKey.length<=66){
-                      //let pkutils = require("ethereum-mnemonic-privatekey-utils")
-                      //const newPrivateKey = pkutils.getPrivateKeyFromMnemonic(newPrivateKey)
                       changeView('main')
                       let possibleNewPrivateKey = this.state.newPrivateKey
                       if(possibleNewPrivateKey.indexOf("0x")!=0){
@@ -155,10 +154,13 @@ export default class Advanced extends React.Component {
                     if(!this.state.newSeedPhrase){
                       changeAlert({type: 'warning', message: 'Invalid seed phrase.'})
                     }else{
-                      let pkutils = require("ethereum-mnemonic-privatekey-utils")
+                      //let pkutils = require("pkutils")
+                      console.log("creating key from seedphrase" + this.state.newSeedPhrase);
+                      this.state.newPrivateKeyMnemonic = this.state.newSeedPhrase;
                       const newPrivateKey = pkutils.getPrivateKeyFromMnemonic(this.state.newSeedPhrase)
+                      
                       changeView('main')
-                      setPossibleNewPrivateKey("0x"+newPrivateKey)
+                      setPossibleNewPrivateKey("0x"+newPrivateKey, this.state.newSeedPhrase)
                     }
                   }}>
             <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
