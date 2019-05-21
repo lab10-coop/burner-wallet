@@ -13,7 +13,8 @@ export default class Advanced extends React.Component {
     this.state = {
       privateKeyQr:false,
       seedPhraseHidden:true,
-      privateKeyHidden:true
+      privateKeyHidden:true,
+      displayMnemonic: false
     }
   }
   render(){
@@ -25,16 +26,24 @@ export default class Advanced extends React.Component {
         return inputPK;
       }
   
-      result = inputPK.slice(0, 6) + breakerChar
-             + inputPK.slice(6, 12) + breakerChar
-             + inputPK.slice(12, 18) + breakerChar
-             + inputPK.slice(18, 24) + breakerChar
-             + inputPK.slice(24, 30) + breakerChar
-             + inputPK.slice(30, 36) + breakerChar
-             + inputPK.slice(36, 42) + breakerChar
-             + inputPK.slice(42, 48) + breakerChar
-             + inputPK.slice(54, 60) + breakerChar
-             + inputPK.slice(60, 66)
+      result =
+                inputPK.slice(0, 2) + breakerChar
+             + inputPK.slice(2, 6) + breakerChar
+             + inputPK.slice(6, 10) + breakerChar
+             + inputPK.slice(10, 14) + breakerChar
+             + inputPK.slice(14, 18) + breakerChar
+             + inputPK.slice(18, 22) + breakerChar
+             + inputPK.slice(22, 26) + breakerChar
+             + inputPK.slice(26, 30) + breakerChar
+             + inputPK.slice(30, 34) + breakerChar
+             + inputPK.slice(34, 38) + breakerChar
+             + inputPK.slice(38, 42) + breakerChar
+             + inputPK.slice(42, 46) + breakerChar
+             + inputPK.slice(46, 50) + breakerChar
+             + inputPK.slice(50, 54) + breakerChar
+             + inputPK.slice(54, 58) + breakerChar
+             + inputPK.slice(58, 62) + breakerChar
+             + inputPK.slice(62, 66) + breakerChar
 
       return  result;
     }
@@ -141,6 +150,8 @@ export default class Advanced extends React.Component {
       inputSeedSize = "col-6 p-1"
     }
 
+
+
     let inputSeedRow = (
       <div className="content ops row" style={{paddingTop:10}}>
         <div className={inputSeedSize}>
@@ -170,13 +181,58 @@ export default class Advanced extends React.Component {
         </div>
       </div>
     )
+    console.log('state:', this.state);
+
+    
+
+    let copyMnemonicRow = "";
+    let mnemonicDisplay = "";
+
+    const pkMnemonic = localStorage.getItem('metaPrivateKeyMnemonic'); 
+    if (pkMnemonic)
+    {
+      copyMnemonicRow =
+      <div className="content ops row" style={{marginBottom:10}}>
+              <div className="col-6 p-1">
+              <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary} onClick={()=>{
+                this.setState({displayMnemonic:!this.state.displayMnemonic})
+              }}>
+                <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
+                  <i className="fas fa-key"/> {i18n.t('showPassphrase')}
+                </Scaler>
+              </button>
+              </div>
+
+              <CopyToClipboard text={pkMnemonic}>
+                <div className="col-6 p-1"
+                    onClick={() => changeAlert({type: 'success', message: 'Seed phrase copied to clipboard'})}>
+                  <button className="btn btn-large w-100" style={this.props.buttonStyle.secondary}>
+                    <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>
+                      <i className="fas fa-key"/> {i18n.t('copyPassphrase')}
+                    </Scaler>
+                  </button>
+                </div>
+              </CopyToClipboard>
+            </div>
+      if(this.state.displayMnemonic){
+        mnemonicDisplay = 
+       
+        <div className="content ops row" style={{padding:10}}>
+          <div className="main-card card w-100">
+            <div style={{width:'100%', textAlign: 'center', fontWeight: 300, fontSize:15, color: '#555555'}}>A bip39 seed phrase is an alternative way to backup or remember your private key:</div>
+            <br />
+            <div style={{width:'100%', textAlign: 'center', fontWeight: 300}}>{pkMnemonic}</div>
+          </div>
+        </div>
+      }
+    }
 
     return (
       <div>
 
         {privateKey && !isVendor &&
         <div>
-          <div style={{fontWeight: 300, padding: 15}}>This is the key to control your funds, keep it secure and private. Don't lose it!</div>
+          <div style={{fontWeight: 300, padding: 15, textAlign: 'center'}}>This is the key to control your funds, keep it secure and private. Don't lose it!</div>
           <div style={{width:"100%",textAlign:"center"}}><h5>Secret-Private Key</h5></div>
           <div className="content ops row" style={{marginBottom:10}}>
             <div className="col-6 p-1">
@@ -199,11 +255,16 @@ export default class Advanced extends React.Component {
                 </button>
               </div>
             </CopyToClipboard>
-
           </div>
+          
           <div className="content ops row">
             {privateKeyQrDisplay}
           </div>
+          {copyMnemonicRow}
+          {mnemonicDisplay}
+
+
+          
 
         </div>
         }
