@@ -5,7 +5,7 @@ import i18next from 'i18next';
 export  default ({openScanner, network, total, dollarDisplay, ens, title, titleImage, mainStyle, buttonStyle, balance, address, changeView, view}) => {
 
   let sendButtonOpacity = 1.0
-  if(view=="receive" || view=="send_badge"){
+  if(view==="receive" || view==="send_badge"){
     sendButtonOpacity = 0
   }
 
@@ -27,7 +27,7 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
     )
     blockieDisplay = (
       <div>
-        <img src ={burnerloader} style={{maxHeight:50,opacity:0.25,marginLeft:-20}}/>
+        <img src ={burnerloader} alt="logo" style={{maxHeight:50,opacity:0.25,marginLeft:-20}}/>
       </div>
     )
   }else{
@@ -58,7 +58,7 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
     cursor:"pointer"
   }
 
-  if(view=="send_to_address"){
+  if(view==="send_to_address"){
     scanButtonStyle.position = "absolute"
     scanButtonStyle.right = -3
     scanButtonStyle.top = 217
@@ -165,7 +165,7 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
 
   let topLeft
 
-  if(view=="main" || view=="exchange"){
+  if(view==="main" || view==="exchange"){
     opacity = 1.0
     var blockscoutURL = '';
     if(network === "ARTIS Sigma1") {
@@ -177,15 +177,15 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
     }
 
     topLeft = (
-      <div style={{zIndex:-2,position:"absolute",left:16,top:4,zIndex:1,cursor:"pointer"}}  >
-        <a href={blockscoutURL + "/address/"+address+"/transactions"} target="_blank" style={{color:"#FFFFFF"}}>
+      <div style={{position:"absolute",left:16,top:4,zIndex:1,cursor:"pointer"}}  >
+        <a href={blockscoutURL + "/address/"+address+"/transactions"} target="_blank" rel="noopener noreferrer" style={{color:"#FFFFFF"}}>
           {blockieDisplay} <div style={{position:"absolute",left:60,top:15,fontSize:14}}>{name}</div>
         </a>
       </div>
     )
   }else{
     topLeft = (
-      <div style={{zIndex:-2,position:"absolute",left:16,top:4,zIndex:1,cursor:"pointer"}} onClick={() => changeView('main')} >
+      <div style={{position:"absolute",left:16,top:4,zIndex:1,cursor:"pointer"}} onClick={() => changeView('main')} >
           {blockieDisplay} <div style={{position:"absolute",left:60,top:15,fontSize:14}}>{name}</div>
       </div>
     )
