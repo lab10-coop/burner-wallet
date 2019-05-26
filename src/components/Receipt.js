@@ -2,17 +2,11 @@ import React from 'react';
 import Badge from './Badge';
 import { Blockie } from "dapparatus";
 import i18n from '../i18n';
-import axios from 'axios';
 
 const BockieSize = 12
 
 export default class Receive extends React.Component {
 
-  constructor(props) {
-    super(props);
-    let initialState = {
-    }
-  }
   componentDidMount(){
     console.log("RECEIPT LOADED",this.props)
     if(this.props.receipt && this.props.receipt.daiposOrderId){
@@ -43,7 +37,8 @@ export default class Receive extends React.Component {
     }
   }
   render() {
-    let {receipt,buttonStyle,ERC20TOKEN,address, balance, changeView, dollarDisplay,account} = this.props
+    //let {receipt,buttonStyle,ERC20TOKEN,address, balance, changeView, dollarDisplay,account} = this.props
+    let {receipt,dollarDisplay} = this.props
 
     let message = ""
 
