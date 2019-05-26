@@ -5,11 +5,11 @@
   "dependencies": {
     "autolinker": "^2.2.1",
     "base64url": "^3.0.1",
-    "bip39": "^3.0.2",
+    "bip39": "^2.6.0",
     "bootstrap": "^4.1.3",
     "cors": "^2.8.4",
     "crypto": "^1.0.1",
-    "dapparatus": "git+https://github.com/lab10-coop/dapparatus.git#c4eabac5cdadad1ab8e800fe4eb1ea404e8ddd6f",
+    "dapparatus": "git+https://github.com/lab10-coop/dapparatus.git#88adb74cfa4ae642ed8f617d74ecc08f74578c17",
     "dotenv": "^6.2.0",
     "eccrypto": "^1.1.0",
     "eth-crypto": "^1.3.2",

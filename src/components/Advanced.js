@@ -162,16 +162,17 @@ export default class Advanced extends React.Component {
         <div className="col-6 p-1">
           <button className="btn btn-large w-100" style={this.props.buttonStyle.primary}
                   onClick={()=>{
+                    //console.log('new seed phrase: ' + this.state.newSeedPhrase);
                     if(!this.state.newSeedPhrase){
                       changeAlert({type: 'warning', message: 'Invalid seed phrase.'})
                     }else{
                       //let pkutils = require("pkutils")
-                      console.log("creating key from seedphrase" + this.state.newSeedPhrase);
-                      this.state.newPrivateKeyMnemonic = this.state.newSeedPhrase;
+                      //console.log("creating key from seedphrase " + this.state.newSeedPhrase);
+                      //this.state.newPrivateKeyMnemonic = this.state.newSeedPhrase;
                       const newPrivateKey = pkutils.getPrivateKeyFromMnemonic(this.state.newSeedPhrase)
-                      
+                      //console.log("new Private Key: " + newPrivateKey);
                       changeView('main')
-                      setPossibleNewPrivateKey("0x"+newPrivateKey, this.state.newSeedPhrase)
+                      setPossibleNewPrivateKey("0x" + newPrivateKey, this.state.newSeedPhrase)
                     }
                   }}>
             <Scaler config={{startZoomAt:400,origin:"50% 50%"}}>

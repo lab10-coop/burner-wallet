@@ -1597,6 +1597,7 @@ render() {
         }}
         //used to pass a private key into Dapparatus
         newPrivateKey={this.state.newPrivateKey}
+        newPrivateKeyMnemonic={this.state.newPrivateKeyMnemonic}
         fallbackWeb3Provider={WEB3_PROVIDER}
         onUpdate={async (state) => {
           //console.log("DAPPARATUS UPDATE",state)
