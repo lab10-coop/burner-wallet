@@ -133,8 +133,8 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
       bottom = (
         <div style={showBackupWarningStyle} >
           <div style={{position:'relative'}}>
-            <h5 style={{color:mainStyle.mainColor, textAlign:'left', paddingLeft: 10, paddingTop: 10}}> {i18next.t('main_card.backup_reminder_header')} </h5>
-            <div style={{color:'black', paddingLeft: 10, fontWeight: 300}}> {i18next.t('main_card.backup_reminder_text')} </div>
+            <h5 style={{color:mainStyle.mainColor, textAlign:'left', paddingLeft: 15, paddingTop: 10}}> {i18next.t('main_card.backup_reminder_header')} </h5>
+            <div style={{color:'black', paddingLeft: 15, fontWeight: 300}}> {i18next.t('main_card.backup_reminder_text')} </div>
           </div>
           <div className="content ops row" style={{padding:15}}>
             <div  className="col-6 p-1" style={{width: 200}} >
@@ -192,7 +192,7 @@ export  default ({openScanner, network, total, dollarDisplay, ens, title, titleI
   }
 
   let topRight = (
-    <div style={{zIndex:-2,position:"absolute",right:28,top:-4,zIndex:1,fontSize:46,opacity:0.9}}  >
+    <div style={{position:"absolute",right:28,top:-4,zIndex:1,fontSize:46,opacity:0.9}}  >
       {moneyDisplay}
     </div>
   )
