@@ -82,14 +82,14 @@ export default class SendToAddress extends React.Component {
             to:this.props.contracts[this.props.ERC20TOKEN]._address,
             data: this.props.contracts[this.props.ERC20TOKEN].transfer(this.props.address,this.props.web3.utils.toWei(""+amount,'ether')).encodeABI(),
             gas: 60000,
-            gasPrice: Math.round(1100000000)//1.1gwei
+            gasPrice: 1000000000
           }
         }else{
           tx={
             to:this.props.address,
             value: this.props.web3.utils.toWei(amount,'ether'),
-            gas: 30000,
-            gasPrice: Math.round(1100000000)//1.1gwei
+            gas: 21000,
+            gasPrice: 1000000000
           }
         }
 
@@ -172,7 +172,7 @@ export default class SendToAddress extends React.Component {
             <div className="form-group w-100">
               <div className="form-group w-100">
                 <label htmlFor="amount_input">{i18n.t('withdraw_from_private.from_address')}</label>
-                <input type="text" className="form-control" placeholder="0x..." value={fromAddress} />
+                <input type="text" className="form-control" placeholder="0x..." value={fromAddress} readOnly={true}  />
               </div>
 
               <div className="content bridge row">
@@ -182,7 +182,7 @@ export default class SendToAddress extends React.Component {
                   <div className="col-6 p-1 w-100">
                     <div style={{fontSize:64,letterSpacing:-2,fontWeight:500,whiteSpace:"nowrap"}}>
                       <Scaler config={{startZoomAt:1000,origin:"0% 50%"}}>
-                        ${this.state.fromBalance}
+                      ATS {this.state.fromBalance}
                       </Scaler>
                     </div>
                   </div>
@@ -191,7 +191,7 @@ export default class SendToAddress extends React.Component {
               <label htmlFor="amount_input">{i18n.t('withdraw_from_private.amount')}</label>
               <div className="input-group">
                 <div className="input-group-prepend">
-                  <div className="input-group-text">$</div>
+                  <div className="input-group-text">ATS </div>
                 </div>
                 <input type="number" className="form-control" placeholder="0.00" value={this.state.amount}
                        onChange={event => this.updateState('amount', event.target.value)} />
