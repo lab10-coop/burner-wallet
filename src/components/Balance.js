@@ -18,14 +18,9 @@ export  default ({icon, text, selected, amount, address, dollarDisplay}) => {
     opacity=0.15
   }
   return (
-    <div className="balance row" style={{opacity,paddingBottom:0,paddingLeft:20}}>
-      <div className="avatar col p-0">
-        <img src={icon} style={{maxWidth:150,maxHeight:150}}/>
-        {/* <div style={{position:'absolute',left:60,top:12,fontSize:14,opacity:0.77}}>
-          {text}
-        </div> */}
-      </div>
-      <div style={{position:"absolute",right:25,marginTop:7}}>
+    <div className="balance row" style={{opacity,paddingBottom:0,paddingLeft:10,paddingRight:10,display:'flex',justifyContent:'space-between'}}>
+      <img src={icon}/>
+      <div style={{marginTop:7}}>
         <Scaler config={{startZoomAt:400,origin:"200px 30px",adjustedZoom:1}}>
           <div style={{fontSize:40,letterSpacing:-2}}>
             {dollarDisplay(amount)}
