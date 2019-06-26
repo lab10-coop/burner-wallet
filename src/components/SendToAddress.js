@@ -13,7 +13,7 @@ export default class SendToAddress extends React.Component {
   constructor(props) {
     super(props);
 
-    this.currentTxGasLimit = 120000;
+    this.currentTxGasLimit = 800000;
 
     console.log("!!!!!!!!!!!!!!!!!!!!!!!! window.location.search",window.location.search,parsed)
 
@@ -214,7 +214,7 @@ export default class SendToAddress extends React.Component {
         console.log('sending ' + value + ' with gas ', this.currentTxGasLimit);
         
         this.props.send(toAddress, value, this.currentTxGasLimit, txData, (result) => {
-          this.currentTxGasLimit = 120000;
+          this.currentTxGasLimit = 800000;
           if(result && result.transactionHash){
             this.props.goBack();
             window.history.pushState({},"", "/");
