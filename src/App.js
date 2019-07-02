@@ -1682,7 +1682,7 @@ render() {
         onUpdate={(state)=>{
           console.log("Gas price update:",state)
           this.setState(state,()=>{
-            this.state.gwei = 1000000000
+            this.state.gwei = 100000000000
             console.log("GWEI set:",this.state)
           })
         }}
