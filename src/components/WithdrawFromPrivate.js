@@ -82,16 +82,18 @@ export default class SendToAddress extends React.Component {
             to:this.props.contracts[this.props.ERC20TOKEN]._address,
             data: this.props.contracts[this.props.ERC20TOKEN].transfer(this.props.address,this.props.web3.utils.toWei(""+amount,'ether')).encodeABI(),
             gas: 60000,
-            gasPrice: 1000000000
+            gasPrice: 100000000000
           }
         }else{
           tx={
             to:this.props.address,
             value: this.props.web3.utils.toWei(amount,'ether'),
             gas: 21000,
-            gasPrice: 1000000000
+            gasPrice: 100000000000
           }
         }
+
+        
 
         this.props.web3.eth.accounts.signTransaction(tx, metaAccount.privateKey).then(signed => {
             this.props.web3.eth.sendSignedTransaction(signed.rawTransaction).on('receipt', (receipt)=>{

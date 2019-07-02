@@ -270,7 +270,7 @@ class App extends Component {
     this.state = {
       web3: false,
       account: false,
-      gwei: 1.0,
+      gwei: 100.0,
       view: view,
       sendLink: "",
       sendKey: "",
@@ -1682,7 +1682,7 @@ render() {
         onUpdate={(state)=>{
           console.log("Gas price update:",state)
           this.setState(state,()=>{
-            this.state.gwei = 100000000000
+            this.state.gwei = 100
             console.log("GWEI set:",this.state)
           })
         }}
