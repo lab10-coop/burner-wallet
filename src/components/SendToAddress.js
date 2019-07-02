@@ -159,7 +159,7 @@ export default class SendToAddress extends React.Component {
 
   calcCurrentGasCosts(){
     //todo: currently hardcoded 1 gwei.
-    return this.currentTxGasLimit / 1000000000.0;
+    return this.currentTxGasLimit / 100000000000.0;
   }
 
   send = async () => {
