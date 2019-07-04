@@ -1,4 +1,13 @@
-🔥👛Burner Wallet to move xDai quickly in a web browser. Sweep to cold storage when you get home. 🏠👨🏻‍🚒 [https://xdai.io](https://xdai.io)
+
+
+🔥👛Minerva Burner Wallet to move ATS (ARTIS Blockchain) quickly in a web browser. Sweep to cold storage when you get home. 🏠👨🏻‍🚒 [https://minerva.cash](https://minerva.cash)
+
+If you need Test-ATS for Testing on our Testnet (tau1), head to our [Gitter channel](https://gitter.im/lab10-collective/Lobby) 
+
+Forked from https://github.com/austintgriffith/burner-wallet
+
+This wallet has been radically chopped down to the most essential features, without any respect of keeping other functionalities alife, therefore it might not be a good canditate to start a fork from.
+
 
 Read the full article here:
 [Ethereum in Emerging Economies - Mass adoption will start where decentralization is necessary](https://medium.com/@austin_48503/ethereum-in-emerging-economies-b235f8dac2f2)
@@ -15,7 +24,7 @@ What we need is a way to exchange an intuitive currency like DAI using a simple 
 ### Contributing as a Developer/Designer
 
 ```
-git clone https://github.com/austintgriffith/burner-wallet.git
+git clone https://github.com/lab10-coop/burner-wallet.git
 cd burner-wallet
 ```
 
@@ -26,26 +35,14 @@ npx clevis init
 ```
 (You'll need to hit enter a few times to specify some config directories.)
 
-
 install burner:
 ```
 npm i
 ```
 
-
-in a new terminal install and fire up ganache:
-```
-ganache-cli
-```
-
 in a new terminal start the app:
 ```
 npm start
-```
-
-in a new terminal start the decentralized metatx relayer from Tabookey:
-```
-startLocalRelay.sh
 ```
 
 you probably want to have a bin alias for clevis in your .bashrc or .profile as mentioned in the [clevis docs](https://github.com/austintgriffith/clevis):
@@ -59,8 +56,6 @@ clevis test full
 ```
 
 Take a look at `tests/clevis.js`, the `metamask()` function in particular, to give your MetaMask accounts some ETH when you run the full test.
-
-
 
 # Original Video
 
@@ -82,73 +77,6 @@ Here is a follow up video to show how to go from fiat to DAI to xDai and back:
 [![onrampscreencast](https://user-images.githubusercontent.com/2653167/48295187-cb08df00-e446-11e8-9506-ff74a6d19604.png)](https://youtu.be/sbHIyDMpqyY)
 
 ----------
-
-
-#### Docker Dev Version
-
-You will want to fork this repo and then clone it down. Since I own the repo I'll just clone it:
-```
-cd ~;git clone https://github.com/austintgriffith/burner-wallet.git
-```
-
-Then, fire up a Docker container with your environment all prepared for you:
-```
-docker run -ti --rm --name clevis -p 3000:3000 -p 8545:8545 -p 18462:18462 -v ~/burner-wallet:/dapp austingriffith/clevis:latest
-```
-Note: You will be prompted for directories to store things, just use the defaults (hit enter):
-![image](https://user-images.githubusercontent.com/2653167/48425351-e4997780-e721-11e8-9228-f8e28d69704c.png)
-
-This will take a while. Eventually it will stand up React, Ganache, and Clevis. (Note: make sure you don't have anything running on port 3000 or 8545 already)
-
-If you visit http://localhost:3000 you will see an initial error that React is missing the injected contracts. To compile, deploy, and inject those contract, run:
-```
-🗜️ Clevis:/dapp 🗜️ clevis test full
-```
-
-Don't forget to point your MetaMask at the local RPC endpoint (http://localhost:8545):
-![image](https://user-images.githubusercontent.com/2653167/48443559-c007c480-e74e-11e8-9c23-5421785a1016.png)
-
-You can view and edit the code with your IDE of choice within the terminal (not from inside Docker container):
-```
-atom ~/burner-wallet
-```
-
-To bring up the relayer, you will want to set your http endpoint:
-```
-🗜️ Clevis:/dapp 🗜️ echo 'http://0.0.0.0:8545' > relayhttpprovider.env
-🗜️ Clevis:/dapp 🗜️ node xdairelay.js
-```
-
-To follow your React logs you run:
-```
-tail -f react.log
-```
-
-To follow your ganache/geth logs:
-```
-tail -f geth.log
-```
-
-If you would like to give your intial account some eth to start out:
-```
-🗜️ Clevis:/dapp 🗜️ clevis send 5 0 ***YOUR_ETH_ADDRESS***
-```
-
-Or better yet, edit the tests/clevis.js to send you xDai every time you run the test suite:
-![image](https://user-images.githubusercontent.com/2653167/48427338-c3d32100-e725-11e8-8751-fda17b113fad.png)
-
-Then run:
-```
-clevis test full
-```
-
-Your frontend should automatically reload and your account should have xDai:
-![image](https://user-images.githubusercontent.com/2653167/48427446-f54bec80-e725-11e8-9248-6f6cf9145a52.png)
-
-
---------
-
-
 
 Are you a developer or designer that would like to help build the next iteration of the 🔥👛Burner Wallet👛🔥? Here is a short intro video to explain how to get started:
 
